@@ -28,8 +28,9 @@ COLLECTION_NAME = "policy_corpus"
 DEFAULT_CHAT_MODEL = os.getenv("OPENROUTER_CHAT_MODEL", "nvidia/nemotron-3.5-lightning:free")
 FALLBACK_CHAT_MODELS = [
     DEFAULT_CHAT_MODEL,
-    "liquid/lfm-2.5-2.6b:free",
+    "nex-agi/nex-n2.5-mini:free",
     "google/gemma-4-26b-a4b-it:free",
+    "liquid/lfm-2.5-2.6b:free",
 ]
 STANDARD_REFUSAL = (
     "I can only answer questions regarding our company policies and procedures "
@@ -40,7 +41,7 @@ SYSTEM_PROMPT = """You are the official Internal Policy Assistant for Apex Techn
 Your sole responsibility is to answer employee inquiries accurately and exclusively using the policy excerpts.
 
 STRICT OPERATING RULES:
-1. DIRECT ANSWER: Output directly the final response. Do NOT output internal thinking or scratchpad reasoning.
+1. DIRECT ANSWER: Output ONLY the final response. NEVER output "Here's a thinking process", chain-of-thought, or scratchpad reasoning.
 2. GROUNDEDNESS: Answer ONLY using information stated in the <context> excerpts. Do NOT assume external knowledge.
 3. OUT-OF-CORPUS REFUSAL: If the question asks about something not in the policies, you MUST respond EXACTLY with:
 "{refusal_phrase}"
@@ -166,6 +167,57 @@ class PolicyRAGPipeline:
         section = best_chunk["section"]
         return f"{summary} [{doc_id}, {section}]"
 
+    def _clean_llm_response(self, text: str) -> str:
+        """Strip internal thinking tokens, CoT prefixes, and recover clean answers."""
+        if not text:
+            return ""
+
+        # 1. Strip XML-style thinking tags
+        text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL)
+
+        # 2. Check for lead-in thinking labels
+        thinking_markers = [
+            "Here's a thinking process:",
+            "Here is a thinking process:",
+            "Thinking Process:",
+            "Thinking process:",
+        ]
+        has_thinking_lead = any(m in text for m in thinking_markers)
+
+        if has_thinking_lead:
+            # If the thinking explicitly concluded with refusal
+            if "i can only answer questions regarding our company policies" in text.lower():
+                return STANDARD_REFUSAL
+
+            # Look for explicit Answer label delimiter
+            parts = re.split(
+                r"(?:\n\s*\n|\n)(?:Answer|Response|Final Answer|\*\*Answer\*\*):\s*",
+                text,
+                flags=re.IGNORECASE,
+            )
+            if len(parts) > 1 and parts[-1].strip():
+                text = parts[-1].strip()
+            else:
+                # Extract non-thinking paragraphs
+                paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
+                non_thinking = [
+                    p for p in paragraphs
+                    if not re.match(
+                        r"^(?:Here's a thinking|Here is a thinking|1\.|2\.|3\.|4\.|5\.|Wait,|Check Rule|Rule \d)",
+                        p,
+                        flags=re.IGNORECASE,
+                    )
+                ]
+                if non_thinking:
+                    text = non_thinking[-1]
+
+        # 3. Clean any surrounding quotation marks if the model quoted the refusal
+        clean = text.strip()
+        if clean.startswith('"') and clean.endswith('"') and len(clean) > 2:
+            clean = clean[1:-1].strip()
+
+        return clean
+
     def query(self, question: str, k: Optional[int] = None) -> Dict[str, Any]:
         """Execute full RAG retrieval and generation cycle with timing metrics."""
         start_time = time.time()
@@ -214,15 +266,15 @@ class PolicyRAGPipeline:
                             {"role": "user", "content": question},
                         ],
                         temperature=0.1,
-                        max_tokens=600,
+                        max_tokens=800,
+                        extra_body={"reasoning": {"exclude": True}},
                     )
-                    raw_content = response.choices[0].message.content.strip()
-                    # Strip any lingering thinking traces if present
-                    if "</think>" in raw_content:
-                        raw_content = raw_content.split("</think>")[-1].strip()
-                    answer = raw_content
-                    used_model = model_candidate
-                    break
+                    raw_content = response.choices[0].message.content or ""
+                    cleaned = self._clean_llm_response(raw_content)
+                    if cleaned:
+                        answer = cleaned
+                        used_model = model_candidate
+                        break
                 except Exception as e:
                     logger.warning(f"Candidate model {model_candidate} failed: {e}. Trying next...")
 
