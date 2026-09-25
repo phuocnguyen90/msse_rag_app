@@ -80,6 +80,26 @@ class PolicyRAGPipeline:
             metadata={"hnsw:space": "cosine"},
         )
 
+        # Self-heal: if collection is empty, automatically populate from data/corpus
+        if self.collection.count() == 0:
+            corpus_dir = os.path.join(
+                os.path.dirname(os.path.dirname(__file__)), "data", "corpus"
+            )
+            if os.path.isdir(corpus_dir):
+                logger.info("ChromaDB collection is empty. Auto-ingesting policy corpus...")
+                try:
+                    from src.ingest import ingest_corpus
+                    ingest_corpus(corpus_dir=corpus_dir, db_dir=self.db_dir)
+                    self.collection = self.chroma_client.get_collection(
+                        name=self.collection_name,
+                        embedding_function=self.embedding_fn,
+                    )
+                    logger.info(
+                        f"Auto-ingestion complete: {self.collection.count()} chunks indexed."
+                    )
+                except Exception as e:
+                    logger.error(f"Failed to auto-ingest corpus: {e}")
+
         # OpenRouter client
         if self.api_key:
             self.llm_client = OpenAI(
