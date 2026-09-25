@@ -102,14 +102,10 @@ def create_app(rag_pipeline: Optional[PolicyRAGPipeline] = None) -> Flask:
     @app.route("/health", methods=["GET"])
     def health():
         """Health check endpoint for Render monitoring and automated smoke tests."""
-        pipeline: PolicyRAGPipeline = app.config["RAG_PIPELINE"]
-        indexed_chunks = 0
-        try:
-            indexed_chunks = pipeline.collection.count()
-            vector_status = "ready"
-        except Exception as e:
-            logger.error(f"Vector DB health check issue: {e}")
-            vector_status = "degraded"
+        pipeline: Optional[PolicyRAGPipeline] = app.config.get("RAG_PIPELINE")
+        indexed_chunks = getattr(pipeline, "indexed_count", 0) if pipeline else 0
+        vector_status = "ready" if indexed_chunks > 0 else "degraded"
+        api_configured = bool(pipeline and pipeline.api_key)
 
         return jsonify({
             "status": "healthy",
@@ -117,7 +113,8 @@ def create_app(rag_pipeline: Optional[PolicyRAGPipeline] = None) -> Flask:
             "version": "1.0.0",
             "vector_store": vector_status,
             "indexed_chunks": indexed_chunks,
-            "chat_model": pipeline.chat_model,
+            "chat_model": getattr(pipeline, "chat_model", "nex-agi/nex-n2.5-mini:free"),
+            "api_key_configured": api_configured,
         }), 200
 
     return app

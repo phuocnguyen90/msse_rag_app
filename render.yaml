@@ -4,12 +4,12 @@ services:
     env: python
     region: oregon
     plan: free
-    buildCommand: pip install -r requirements.txt && python src/ingest.py
-    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 120 "app.app:create_app()"
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --worker-class sync --timeout 120 "app.app:create_app()"
     healthCheckPath: /health
     envVars:
       - key: PYTHON_VERSION
-        value: 3.12.3
+        value: 3.12.9
       - key: FLASK_ENV
         value: production
       - key: OPENROUTER_EMBEDDING_MODEL

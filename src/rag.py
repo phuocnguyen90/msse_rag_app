@@ -71,8 +71,12 @@ class PolicyRAGPipeline:
         self.top_k = top_k
         self.api_key = api_key or os.getenv("OPENROUTER_API_KEY")
 
-        # Chroma vector collection
-        self.chroma_client = chromadb.PersistentClient(path=self.db_dir)
+        # Chroma vector collection with telemetry disabled for fast cloud startup
+        from chromadb.config import Settings  # noqa: E402
+        self.chroma_client = chromadb.PersistentClient(
+            path=self.db_dir,
+            settings=Settings(anonymized_telemetry=False, is_persistent=True),
+        )
         self.embedding_fn = OpenRouterEmbeddingFunction(api_key=self.api_key)
         self.collection = self.chroma_client.get_or_create_collection(
             name=self.collection_name,
@@ -80,8 +84,13 @@ class PolicyRAGPipeline:
             metadata={"hnsw:space": "cosine"},
         )
 
-        # Self-heal: if collection is empty, automatically populate from data/corpus
-        if self.collection.count() == 0:
+        try:
+            self.indexed_count = self.collection.count()
+        except Exception:
+            self.indexed_count = 0
+
+        # Self-heal: if collection is empty and corpus exists, populate it
+        if self.indexed_count == 0:
             corpus_dir = os.path.join(
                 os.path.dirname(os.path.dirname(__file__)), "data", "corpus"
             )
@@ -94,8 +103,9 @@ class PolicyRAGPipeline:
                         name=self.collection_name,
                         embedding_function=self.embedding_fn,
                     )
+                    self.indexed_count = self.collection.count()
                     logger.info(
-                        f"Auto-ingestion complete: {self.collection.count()} chunks indexed."
+                        f"Auto-ingestion complete: {self.indexed_count} chunks indexed."
                     )
                 except Exception as e:
                     logger.error(f"Failed to auto-ingest corpus: {e}")
