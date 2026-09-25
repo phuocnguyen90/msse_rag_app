@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: apex-policy-rag-assistant
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt && python src/ingest.py
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 120 "app.app:create_app()"
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      - key: FLASK_ENV
+        value: production
+      - key: OPENROUTER_EMBEDDING_MODEL
+        value: nvidia/llama-nemotron-embed-vl-1b-v2:free
+      - key: OPENROUTER_CHAT_MODEL
+        value: nvidia/nemotron-3.5-lightning:free
+      - key: OPENROUTER_API_KEY
+        sync: false

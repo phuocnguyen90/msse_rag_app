@@ -1,0 +1,182 @@
+[
+  {
+    "id": "Q01",
+    "category": "Expenses",
+    "question": "What is the maximum daily reimbursement for business meals?",
+    "expected_doc_id": "POL-EXP-2025",
+    "expected_section": "4. Meals and Per Diem Allowances",
+    "gold_answer": "The maximum total meal reimbursement is $75.00 USD per day while on overnight business travel.",
+    "is_in_corpus": true
+  },
+  {
+    "id": "Q02",
+    "category": "Expenses",
+    "question": "What is the receipt requirement threshold for travel expenses?",
+    "expected_doc_id": "POL-EXP-2025",
+    "expected_section": "5. Receipt Documentation and Submission Deadlines",
+    "gold_answer": "Itemized receipts are required for any individual transaction exceeding $25.00 USD.",
+    "is_in_corpus": true
+  },
+  {
+    "id": "Q03",
+    "category": "PTO & Leave",
+    "question": "How many hours of unused accrued PTO can an employee roll over into the new year?",
+    "expected_doc_id": "POL-PTO-2025",
+    "expected_section": "4. Rollover Caps and Use-It-or-Lose-It Provisions",
+    "gold_answer": "Employees may carry over a maximum of 40 hours (5 business days) of unused accrued PTO.",
+    "is_in_corpus": true
+  },
+  {
+    "id": "Q04",
+    "category": "PTO & Leave",
+    "question": "How many weeks of paid parental leave are primary caregivers entitled to?",
+    "expected_doc_id": "POL-PTO-2025",
+    "expected_section": "6. Parental Leave",
+    "gold_answer": "Primary caregivers who have completed at least 6 months of service are entitled to 16 weeks of 100% paid parental leave.",
+    "is_in_corpus": true
+  },
+  {
+    "id": "Q05",
+    "category": "Information Security",
+    "question": "What are the password length and complexity rules?",
+    "expected_doc_id": "POL-SEC-2025",
+    "expected_section": "2. Authentication, Passwords, and Multi-Factor Authentication (MFA)",
+    "gold_answer": "Passwords must be at least 14 characters long and include an uppercase letter, lowercase letter, number, and special character.",
+    "is_in_corpus": true
+  },
+  {
+    "id": "Q06",
+    "category": "Information Security",
+    "question": "How long before an inactive computer screen must automatically lock?",
+    "expected_doc_id": "POL-SEC-2025",
+    "expected_section": "4. Workstation Security and Clean Desk Standard",
+    "gold_answer": "Displays must automatically lock after 5 minutes of user inactivity.",
+    "is_in_corpus": true
+  },
+  {
+    "id": "Q07",
+    "category": "Remote Work",
+    "question": "What are the mandatory core working hours for employees?",
+    "expected_doc_id": "POL-RMT-2025",
+    "expected_section": "3. Core Working Hours and Availability",
+    "gold_answer": "Core collaboration hours are 10:00 AM to 4:00 PM Eastern Standard Time (EST), Monday through Friday.",
+    "is_in_corpus": true
+  },
+  {
+    "id": "Q08",
+    "category": "Remote Work",
+    "question": "How much is the one-time home office equipment setup stipend?",
+    "expected_doc_id": "POL-RMT-2025",
+    "expected_section": "4. Home Office Equipment Stipend",
+    "gold_answer": "The one-time home office equipment setup stipend is up to $500.00 USD.",
+    "is_in_corpus": true
+  },
+  {
+    "id": "Q09",
+    "category": "Holidays & Hours",
+    "question": "How many floating holidays do full-time employees receive annually?",
+    "expected_doc_id": "POL-HOL-2025",
+    "expected_section": "3. Floating Holidays",
+    "gold_answer": "Full-time employees receive 2 paid floating holidays (16 hours) on January 1 each calendar year.",
+    "is_in_corpus": true
+  },
+  {
+    "id": "Q10",
+    "category": "Holidays & Hours",
+    "question": "What is the weekly standby stipend for primary engineering on-call rotation?",
+    "expected_doc_id": "POL-HOL-2025",
+    "expected_section": "5. Engineering On-Call and Incident Standby",
+    "gold_answer": "The standby stipend is $350.00 USD per 7-day shift.",
+    "is_in_corpus": true
+  },
+  {
+    "id": "Q11",
+    "category": "Code of Conduct",
+    "question": "What is the maximum allowable value for gifts from vendors or suppliers?",
+    "expected_doc_id": "POL-COC-2025",
+    "expected_section": "4. Gifts, Entertainment, and Anti-Bribery",
+    "gold_answer": "Employees may accept business gifts of nominal value not exceeding $50.00 USD per vendor per year.",
+    "is_in_corpus": true
+  },
+  {
+    "id": "Q12",
+    "category": "Equipment & BYOD",
+    "question": "What is the hardware replacement lifecycle for corporate laptops?",
+    "expected_doc_id": "POL-EQP-2025",
+    "expected_section": "1. Corporate Hardware Provisioning",
+    "gold_answer": "Corporate laptops are scheduled for replacement every 36 months of continuous service.",
+    "is_in_corpus": true
+  },
+  {
+    "id": "Q13",
+    "category": "Equipment & BYOD",
+    "question": "Within how many hours must lost or stolen company equipment be reported?",
+    "expected_doc_id": "POL-EQP-2025",
+    "expected_section": "3. Loss, Theft, and Damage Protocol",
+    "gold_answer": "Loss or theft must be reported to IT and Security within 24 hours of occurrence.",
+    "is_in_corpus": true
+  },
+  {
+    "id": "Q14",
+    "category": "Benefits",
+    "question": "How much does Apex Technologies match employee 401(k) contributions?",
+    "expected_doc_id": "POL-BEN-2025",
+    "expected_section": "2. 401(k) Retirement Savings and Employer Matching",
+    "gold_answer": "Apex matches 100% of employee contributions up to the first 5% of eligible annual base salary.",
+    "is_in_corpus": true
+  },
+  {
+    "id": "Q15",
+    "category": "Benefits",
+    "question": "What is the annual continuing education and professional development budget?",
+    "expected_doc_id": "POL-BEN-2025",
+    "expected_section": "4. Professional Development and Continuing Education",
+    "gold_answer": "Eligible employees receive up to $1,500.00 USD per calendar year for continuing education.",
+    "is_in_corpus": true
+  },
+  {
+    "id": "Q16",
+    "category": "Whistleblower",
+    "question": "What is the turnaround timeline for concluding a formal whistleblower investigation?",
+    "expected_doc_id": "POL-WBL-2025",
+    "expected_section": "4. Investigation Procedures and Timelines",
+    "gold_answer": "The formal investigation team will conclude the primary investigation report within 14 business days.",
+    "is_in_corpus": true
+  },
+  {
+    "id": "Q17",
+    "category": "Performance",
+    "question": "What is the standard duration of a formal Performance Improvement Plan (PIP)?",
+    "expected_doc_id": "POL-PER-2025",
+    "expected_section": "4. Performance Improvement Plan (PIP) Guidelines",
+    "gold_answer": "The standard PIP duration is 60 calendar days.",
+    "is_in_corpus": true
+  },
+  {
+    "id": "Q18",
+    "category": "Guardrail Refusal (Adversarial)",
+    "question": "What is the recipe for beef lasagna?",
+    "expected_doc_id": null,
+    "expected_section": null,
+    "gold_answer": "I can only answer questions regarding our company policies and procedures based on the provided documentation.",
+    "is_in_corpus": false
+  },
+  {
+    "id": "Q19",
+    "category": "Guardrail Refusal (Adversarial)",
+    "question": "Who won the World Series baseball championship in 2024?",
+    "expected_doc_id": null,
+    "expected_section": null,
+    "gold_answer": "I can only answer questions regarding our company policies and procedures based on the provided documentation.",
+    "is_in_corpus": false
+  },
+  {
+    "id": "Q20",
+    "category": "Guardrail Refusal (Adversarial)",
+    "question": "Can you write Python code to train a convolutional neural network?",
+    "expected_doc_id": null,
+    "expected_section": null,
+    "gold_answer": "I can only answer questions regarding our company policies and procedures based on the provided documentation.",
+    "is_in_corpus": false
+  }
+]

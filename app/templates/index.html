@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Technologies — Policy & Procedures AI Assistant</title>
+    <meta name="description" content="Grounded Retrieval-Augmented Generation (RAG) assistant for corporate policies and employee guidelines.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">
+                    <span class="logo-icon">✦</span>
+                </div>
+                <div>
+                    <h2>Apex Policy AI</h2>
+                    <span class="brand-tagline">RAG Policy Assistant</span>
+                </div>
+            </div>
+
+            <div class="status-panel">
+                <div class="status-header">
+                    <span class="status-indicator live"></span>
+                    <span class="status-text">Grounded & Verified</span>
+                </div>
+                <div class="status-details">
+                    <div class="status-item">
+                        <span class="label">Vector Store:</span>
+                        <span class="value" id="vector-status">ChromaDB (70 chunks)</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="label">Embeddings:</span>
+                        <span class="value">Nemotron Embed (OpenRouter)</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="label">Chat Model:</span>
+                        <span class="value" id="model-name">Nemotron 3.5 Lightning</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-questions">
+                <h3>Suggested Inquiries</h3>
+                <button class="quick-btn" data-query="What is the maximum daily reimbursement for business meals?">
+                    <span>🍽️</span> Daily Meal Allowance
+                </button>
+                <button class="quick-btn" data-query="How many PTO days can I carry over into next year?">
+                    <span>🌴</span> PTO Carryover Limit
+                </button>
+                <button class="quick-btn" data-query="What is the company 401(k) matching percentage?">
+                    <span>📈</span> 401(k) Retirement Match
+                </button>
+                <button class="quick-btn" data-query="What are the password complexity and MFA requirements?">
+                    <span>🔐</span> Passwords & 2FA
+                </button>
+                <button class="quick-btn" data-query="What is the one-time home office equipment stipend?">
+                    <span>💻</span> Home Office Stipend
+                </button>
+                <button class="quick-btn guardrail-btn" data-query="What was the score of yesterday's basketball game?">
+                    <span>🛡️</span> Test Out-of-Scope Refusal
+                </button>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="guardrail-badge">
+                    <span>🛡️</span>
+                    <div>
+                        <strong>Strict Guardrails</strong>
+                        <p>Refuses out-of-corpus queries</p>
+                    </div>
+                </div>
+                <a href="/health" target="_blank" class="health-link">System Health Check ↗</a>
+            </div>
+        </aside>
+
+        <!-- Main Chat Container -->
+        <main class="main-content">
+            <header class="chat-header">
+                <div>
+                    <h1>Company Policy Knowledge Base</h1>
+                    <p class="header-desc">Ask questions about PTO, travel, expenses, remote work, equipment, and ethical guidelines.</p>
+                </div>
+                <div class="header-actions">
+                    <button id="clear-chat-btn" class="secondary-btn" title="Clear conversation history">Clear Chat</button>
+                </div>
+            </header>
+
+            <div class="messages-container" id="messages-container">
+                <!-- Welcome greeting -->
+                <div class="message-bubble bot-message intro-bubble">
+                    <div class="avatar">✦</div>
+                    <div class="message-content">
+                        <p><strong>Hello! I am the Apex Technologies Policy Assistant.</strong></p>
+                        <p>I answer questions exclusively using verified company policies and guidelines. Every answer includes verifiable source citations and passage snippets.</p>
+                        <p class="intro-tip">Tip: Click any suggested question in the sidebar or enter your own query below.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input area -->
+            <div class="input-container">
+                <form id="chat-form" class="chat-form">
+                    <div class="input-wrapper">
+                        <textarea 
+                            id="query-input" 
+                            placeholder="Ask a policy question (e.g., 'What is the daily lodging reimbursement cap in New York?')..." 
+                            rows="1"
+                            autocomplete="off"
+                            required></textarea>
+                        <button type="submit" id="send-btn" class="send-btn" aria-label="Send query">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="input-footnote">
+                        <span>Grounded answers strictly cite official policy documents. Inquiries outside company documentation are automatically refused.</span>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Snippet Modal Drawer -->
+    <div id="snippet-modal" class="modal-backdrop hidden">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div>
+                    <span class="badge" id="modal-doc-id">DOC-ID</span>
+                    <h3 id="modal-title">Source Excerpt</h3>
+                    <p id="modal-section" class="modal-section-title">Section Name</p>
+                </div>
+                <button id="close-modal-btn" class="close-btn" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>Verified Policy Passage:</h4>
+                <div class="snippet-content" id="modal-snippet"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

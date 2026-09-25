@@ -1,0 +1,68 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Lint & Automated Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12"]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Lint Code with Flake8
+        run: |
+          flake8 src app tests --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 src app tests --count --exit-zero --max-complexity=12 --max-line-length=120 --statistics
+
+      - name: Ingest & Vector Index Build Test
+        run: |
+          python src/ingest.py --reset
+
+      - name: Run Pytest Test Suite
+        run: |
+          pytest -v --cov=src --cov=app tests/
+
+  deploy:
+    name: Gated Automated Deployment
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to Cloud Hosting (Render Deploy Webhook)
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -n "$RENDER_DEPLOY_HOOK_URL" ]; then
+            echo "Triggering automated Render deployment webhook..."
+            curl -X POST "$RENDER_DEPLOY_HOOK_URL"
+          else
+            echo "RENDER_DEPLOY_HOOK_URL secret not set. Skipping live deploy webhook trigger."
+          fi
+
+      - name: Confirm Deployment Gating
+        run: |
+          echo "Automated tests successfully passed on main branch. Deployment authorized."
