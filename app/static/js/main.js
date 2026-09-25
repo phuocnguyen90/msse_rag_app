@@ -34,6 +34,14 @@ document.addEventListener("DOMContentLoaded", () => {
             console.warn("Health check call failed:", err);
         });
 
+    const modelSelect = document.getElementById("model-select");
+    if (modelSelect) {
+        modelSelect.addEventListener("change", () => {
+            const shortModel = modelSelect.value.split("/").pop().replace(":free", "");
+            if (modelNameEl) modelNameEl.textContent = shortModel;
+        });
+    }
+
     // Direct query submission
     async function submitQuery(question) {
         question = (question || "").trim();
@@ -47,11 +55,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const typingBubble = appendTypingIndicator();
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
+        const selectedModel = modelSelect ? modelSelect.value : undefined;
+
         try {
             const response = await fetch("/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ question: question })
+                body: JSON.stringify({ question: question, model: selectedModel })
             });
 
             const data = await response.json();

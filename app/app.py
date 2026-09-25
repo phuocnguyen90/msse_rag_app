@@ -67,7 +67,13 @@ def create_app(rag_pipeline: Optional[PolicyRAGPipeline] = None) -> Flask:
             except (ValueError, TypeError):
                 k = None
 
-        result = pipeline.query(question=question, k=k)
+        model = data.get("model", None)
+        if isinstance(model, str):
+            model = model.strip() or None
+        else:
+            model = None
+
+        result = pipeline.query(question=question, k=k, model=model)
         return jsonify({
             "status": "success",
             "question": result["question"],
@@ -78,6 +84,20 @@ def create_app(rag_pipeline: Optional[PolicyRAGPipeline] = None) -> Flask:
             "generation_ms": result.get("generation_ms", 0.0),
             "model": result.get("model", pipeline.chat_model),
         })
+
+    @app.route("/models", methods=["GET"])
+    def get_models():
+        """Return available LLM candidates for testing and dynamic selection."""
+        pipeline: PolicyRAGPipeline = app.config["RAG_PIPELINE"]
+        return jsonify({
+            "default_model": pipeline.chat_model,
+            "models": [
+                {"id": "nex-agi/nex-n2.5-mini:free", "name": "Nex-N2.5 Mini (Fastest ~0.8s)", "tag": "Recommended"},
+                {"id": "google/gemma-4-26b-a4b-it:free", "name": "Google Gemma 4 (26B)", "tag": "Google"},
+                {"id": "nvidia/nemotron-3.5-lightning:free", "name": "NVIDIA Nemotron 3.5 Lightning", "tag": "NVIDIA"},
+                {"id": "liquid/lfm-2.5-2.6b:free", "name": "Liquid LFM 2.5 (2.6B)", "tag": "Liquid"},
+            ]
+        }), 200
 
     @app.route("/health", methods=["GET"])
     def health():

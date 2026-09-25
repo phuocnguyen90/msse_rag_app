@@ -57,3 +57,26 @@ def test_chat_endpoint_empty_question(client):
 def test_chat_endpoint_non_json(client):
     response = client.post("/chat", data="not a json payload")
     assert response.status_code == 400
+
+
+def test_models_endpoint(client):
+    response = client.get("/models")
+    assert response.status_code == 200
+    data = response.get_json()
+    assert "default_model" in data
+    assert "models" in data
+    assert len(data["models"]) >= 3
+
+
+def test_chat_endpoint_with_model_selection(client):
+    response = client.post(
+        "/chat",
+        json={
+            "question": "What is the daily meal per diem cap?",
+            "model": "nex-agi/nex-n2.5-mini:free",
+        },
+    )
+    assert response.status_code == 200
+    data = response.get_json()
+    assert data["status"] == "success"
+    assert "model" in data

@@ -219,7 +219,12 @@ class PolicyRAGPipeline:
 
         return clean
 
-    def query(self, question: str, k: Optional[int] = None) -> Dict[str, Any]:
+    def query(
+        self,
+        question: str,
+        k: Optional[int] = None,
+        model: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """Execute full RAG retrieval and generation cycle with timing metrics."""
         start_time = time.time()
         question = question.strip()
@@ -230,7 +235,7 @@ class PolicyRAGPipeline:
                 "answer": "Please provide a valid policy question.",
                 "citations": [],
                 "latency_ms": 0.0,
-                "model": self.chat_model,
+                "model": model or self.chat_model,
             }
 
         # 1. Retrieval
@@ -250,14 +255,19 @@ class PolicyRAGPipeline:
         # 2. Generation with OpenRouter or offline fallback
         gen_start = time.time()
         answer = None
-        used_model = self.chat_model
+        target_model = (
+            model.strip()
+            if (model and model.strip() and model.strip() != "auto")
+            else self.chat_model
+        )
+        used_model = target_model
 
         if self.llm_client and self.api_key:
             prompt = SYSTEM_PROMPT.format(
                 refusal_phrase=STANDARD_REFUSAL,
                 context_block=context_block,
             )
-            candidates = [self.chat_model] + [m for m in FALLBACK_CHAT_MODELS if m != self.chat_model]
+            candidates = [target_model] + [m for m in FALLBACK_CHAT_MODELS if m != target_model]
             for model_candidate in candidates:
                 try:
                     response = self.llm_client.chat.completions.create(

@@ -265,6 +265,52 @@ body {
     margin-top: 2px;
 }
 
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.model-picker-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: rgba(30, 41, 59, 0.7);
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+}
+
+.picker-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.model-select-control {
+    background-color: transparent;
+    color: var(--text-primary);
+    border: none;
+    font-size: 0.8rem;
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+    padding: 4px 6px;
+    border-radius: 4px;
+}
+
+.model-select-control option {
+    background-color: #0f172a;
+    color: #f1f5f9;
+}
+
+.model-select-control:focus {
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+}
+
 .secondary-btn {
     background-color: transparent;
     border: 1px solid var(--border);
@@ -274,6 +320,7 @@ body {
     font-size: 0.8rem;
     cursor: pointer;
     transition: all 0.2s;
+    white-space: nowrap;
 }
 
 .secondary-btn:hover {
