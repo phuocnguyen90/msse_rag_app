@@ -36,6 +36,11 @@ def create_app(rag_pipeline: Optional[PolicyRAGPipeline] = None) -> Flask:
         """Serve web chat interface."""
         return render_template("index.html")
 
+    @app.route("/favicon.ico")
+    def favicon():
+        """Handle browser favicon request cleanly."""
+        return "", 204
+
     @app.route("/chat", methods=["POST"])
     def chat():
         """Chat API endpoint: receives question, returns answer, citations, and snippets."""
