@@ -132,28 +132,32 @@ class PolicyRAGPipeline:
 
         query_lower = query.lower()
         out_of_scope_keywords = [
-            "weather", "sports", "python code", "president", "capital of",
-            "stock price of apple", "recipe", "quantum physics", "joke", "tell me a story"
+            "weather", "sports", "basketball", "baseball", "football", "soccer",
+            "score", "game", "python code", "president", "capital of",
+            "stock price", "recipe", "quantum physics", "joke", "tell me a story",
+            "movie", "song", "lasagna"
         ]
         if any(kw in query_lower for kw in out_of_scope_keywords):
             return STANDARD_REFUSAL
 
-        # Simple semantic keyword overlap check with retrieved chunks
+        # Check substantive query term overlap with retrieved chunks
+        stopwords = {
+            "what", "when", "where", "which", "does", "have", "many", "much",
+            "with", "from", "about", "your", "this", "that", "tell", "give", "please"
+        }
+        query_words = set(re.findall(r"\w{4,}", query_lower))
+        substantive_query_words = {w for w in query_words if w not in stopwords}
+
         best_chunk = retrieved_chunks[0]
         snippet_sentences = [s.strip() for s in best_chunk["snippet"].split("\n") if s.strip()]
 
-        # Filter lines relevant to query words
-        query_words = set(re.findall(r"\w{4,}", query_lower))
+        # Filter sentences relevant to query words
         relevant_sentences = []
         for s in snippet_sentences:
-            if any(w in s.lower() for w in query_words) and not s.startswith("#"):
+            if any(w in s.lower() for w in substantive_query_words) and not s.startswith("#"):
                 relevant_sentences.append(s.lstrip("- *"))
 
-        if not relevant_sentences:
-            relevant_sentences = [
-                s.lstrip("- *") for s in snippet_sentences if not s.startswith("#")
-            ][:2]
-
+        # If zero substantive words matched anywhere in best chunk, trigger refusal
         if not relevant_sentences:
             return STANDARD_REFUSAL
 

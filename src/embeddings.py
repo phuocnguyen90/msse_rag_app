@@ -20,19 +20,24 @@ DEFAULT_DIMENSION = 2048
 
 
 def _generate_mock_embedding(text: str, dim: int = DEFAULT_DIMENSION) -> List[float]:
-    """Generate a deterministic normalized pseudorandom vector based on sha256 hash.
+    """Generate a deterministic Bag-of-Words feature hashing vector.
 
-    Used strictly when OPENROUTER_API_KEY is not configured or in offline test mode.
+    Used when OPENROUTER_API_KEY is not configured or in offline test mode.
+    Maps words to hash buckets with sign hashing so term overlaps produce
+    positive cosine similarity for accurate offline retrieval.
     """
-    hasher = hashlib.sha256(text.encode("utf-8"))
-    digest = hasher.digest()
-    vec = []
-    for i in range(dim):
-        byte_val = digest[i % len(digest)]
-        # Normalize between -1.0 and 1.0
-        val = (byte_val / 128.0) - 1.0
-        vec.append(val)
-    # L2 normalize
+    import re
+    vec = [0.0] * dim
+    words = re.findall(r"\w+", text.lower())
+    if not words:
+        return vec
+
+    for word in words:
+        h = int(hashlib.md5(word.encode("utf-8")).hexdigest(), 16)
+        idx = h % dim
+        sign = 1.0 if (h >> 32) % 2 == 0 else -1.0
+        vec[idx] += sign
+
     norm = math.sqrt(sum(v * v for v in vec)) or 1.0
     return [v / norm for v in vec]
 
@@ -66,7 +71,8 @@ class OpenRouterEmbeddingFunction(EmbeddingFunction[Documents]):
                 "OPENROUTER_API_KEY is not set. Operating in offline mock embedding mode."
             )
 
-    def name(self) -> str:
+    @staticmethod
+    def name() -> str:
         return "openrouter_embedding_function"
 
     def get_config(self) -> dict:

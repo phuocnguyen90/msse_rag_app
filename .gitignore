@@ -8,3 +8,4 @@ htmlcov/
 *.log
 .env
 .DS_Store
+data/chroma_db/
