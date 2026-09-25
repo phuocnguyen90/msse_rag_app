@@ -47,22 +47,22 @@
 
             <div class="quick-questions">
                 <h3>Suggested Inquiries</h3>
-                <button class="quick-btn" data-query="What is the maximum daily reimbursement for business meals?">
+                <button type="button" class="quick-btn" data-query="What is the maximum daily reimbursement for business meals?">
                     <span>🍽️</span> Daily Meal Allowance
                 </button>
-                <button class="quick-btn" data-query="How many PTO days can I carry over into next year?">
+                <button type="button" class="quick-btn" data-query="How many PTO days can I carry over into next year?">
                     <span>🌴</span> PTO Carryover Limit
                 </button>
-                <button class="quick-btn" data-query="What is the company 401(k) matching percentage?">
+                <button type="button" class="quick-btn" data-query="What is the company 401(k) matching percentage?">
                     <span>📈</span> 401(k) Retirement Match
                 </button>
-                <button class="quick-btn" data-query="What are the password complexity and MFA requirements?">
+                <button type="button" class="quick-btn" data-query="What are the password complexity and MFA requirements?">
                     <span>🔐</span> Passwords & 2FA
                 </button>
-                <button class="quick-btn" data-query="What is the one-time home office equipment stipend?">
+                <button type="button" class="quick-btn" data-query="What is the one-time home office equipment stipend?">
                     <span>💻</span> Home Office Stipend
                 </button>
-                <button class="quick-btn guardrail-btn" data-query="What was the score of yesterday's basketball game?">
+                <button type="button" class="quick-btn guardrail-btn" data-query="What was the score of yesterday's basketball game?">
                     <span>🛡️</span> Test Out-of-Scope Refusal
                 </button>
             </div>
@@ -87,7 +87,7 @@
                     <p class="header-desc">Ask questions about PTO, travel, expenses, remote work, equipment, and ethical guidelines.</p>
                 </div>
                 <div class="header-actions">
-                    <button id="clear-chat-btn" class="secondary-btn" title="Clear conversation history">Clear Chat</button>
+                    <button type="button" id="clear-chat-btn" class="secondary-btn" title="Clear conversation history">Clear Chat</button>
                 </div>
             </header>
 
@@ -105,7 +105,7 @@
 
             <!-- Input area -->
             <div class="input-container">
-                <form id="chat-form" class="chat-form">
+                <form id="chat-form" class="chat-form" action="javascript:void(0);">
                     <div class="input-wrapper">
                         <textarea 
                             id="query-input" 

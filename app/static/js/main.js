@@ -34,54 +34,16 @@ document.addEventListener("DOMContentLoaded", () => {
             console.warn("Health check call failed:", err);
         });
 
-    // Auto-expand textarea
-    queryInput.addEventListener("input", function() {
-        this.style.height = "auto";
-        this.style.height = (this.scrollHeight) + "px";
-    });
-
-    queryInput.addEventListener("keydown", function(e) {
-        if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault();
-            chatForm.dispatchEvent(new Event("submit"));
-        }
-    });
-
-    // Quick questions
-    quickButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-            const query = btn.getAttribute("data-query");
-            queryInput.value = query;
-            queryInput.style.height = "auto";
-            chatForm.dispatchEvent(new Event("submit"));
-        });
-    });
-
-    // Clear chat
-    clearChatBtn.addEventListener("click", () => {
-        messagesContainer.innerHTML = `
-            <div class="message-bubble bot-message intro-bubble">
-                <div class="avatar">✦</div>
-                <div class="message-content">
-                    <p><strong>Chat cleared.</strong> How can I help you with our company policies?</p>
-                </div>
-            </div>
-        `;
-    });
-
-    // Submit handler
-    chatForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const question = queryInput.value.trim();
+    // Direct query submission
+    async function submitQuery(question) {
+        question = (question || "").trim();
         if (!question) return;
 
-        // Append user message
         appendUserMessage(question);
         queryInput.value = "";
         queryInput.style.height = "auto";
         sendBtn.disabled = true;
 
-        // Append typing indicator
         const typingBubble = appendTypingIndicator();
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
@@ -103,11 +65,55 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (err) {
             typingBubble.remove();
             appendErrorMessage("Network error: Unable to reach the policy assistant server.");
-            console.error(err);
+            console.error("Chat API error:", err);
         } finally {
             sendBtn.disabled = false;
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
+    }
+
+    // Auto-expand textarea
+    queryInput.addEventListener("input", function() {
+        this.style.height = "auto";
+        this.style.height = (this.scrollHeight) + "px";
+    });
+
+    queryInput.addEventListener("keydown", function(e) {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            e.stopPropagation();
+            submitQuery(queryInput.value);
+        }
+    });
+
+    // Quick questions
+    quickButtons.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const query = btn.getAttribute("data-query");
+            submitQuery(query);
+        });
+    });
+
+    // Clear chat
+    clearChatBtn.addEventListener("click", () => {
+        messagesContainer.innerHTML = `
+            <div class="message-bubble bot-message intro-bubble">
+                <div class="avatar">✦</div>
+                <div class="message-content">
+                    <p><strong>Chat cleared.</strong> How can I help you with our company policies?</p>
+                </div>
+            </div>
+        `;
+    });
+
+    // Submit handler
+    chatForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        submitQuery(queryInput.value);
+        return false;
     });
 
     function appendUserMessage(text) {
