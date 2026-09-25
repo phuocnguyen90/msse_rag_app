@@ -25,11 +25,11 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_DB_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "chroma_db")
 COLLECTION_NAME = "policy_corpus"
-DEFAULT_CHAT_MODEL = os.getenv("OPENROUTER_CHAT_MODEL", "nvidia/nemotron-3.5-lightning:free")
+DEFAULT_CHAT_MODEL = os.getenv("OPENROUTER_CHAT_MODEL", "nex-agi/nex-n2.5-mini:free")
 FALLBACK_CHAT_MODELS = [
     DEFAULT_CHAT_MODEL,
-    "nex-agi/nex-n2.5-mini:free",
     "google/gemma-4-26b-a4b-it:free",
+    "nvidia/nemotron-3.5-lightning:free",
     "liquid/lfm-2.5-2.6b:free",
 ]
 STANDARD_REFUSAL = (
@@ -85,7 +85,8 @@ class PolicyRAGPipeline:
             self.llm_client = OpenAI(
                 base_url="https://openrouter.ai/api/v1",
                 api_key=self.api_key,
-                timeout=15.0,
+                timeout=10.0,
+                max_retries=1,
             )
         else:
             self.llm_client = None

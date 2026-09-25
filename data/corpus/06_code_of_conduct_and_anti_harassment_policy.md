@@ -26,7 +26,8 @@ Apex Technologies is committed to fostering an inclusive, respectful, and ethica
 ---
 
 ## 4. Gifts, Entertainment, and Anti-Bribery
-- **Gift Acceptance Ceiling:** Employees may accept business gifts or promotional items of nominal value only, not to exceed **$50.00 USD** in aggregate value per vendor per calendar year.
+- **Gift Acceptance Ceiling and Boundary Condition:** Employees may accept business gifts or promotional items of nominal value only, not to exceed **$50.00 USD** in aggregate value per vendor per calendar year. Non-cash gifts valued at **exactly $50.00 USD or less** may be retained by the employee. Any gift valued at **$50.01 USD or greater** must be formally registered in the Corporate Gift Log within five (5) business days and surrendered to Human Resources for company-wide charitable distribution.
+- **Vendor-Provided Hospitality & Meals:** Modest working lunches provided during commercial vendor meetings are permitted. However, vendor-hosted dinners, luxury entertainment, or event tickets exceeding **$100.00 USD per attendee** require advance written clearance from Legal & Compliance. (Note: For company-funded client entertainment hosted by Apex staff, refer to the $150.00 VP-approved allowance under POL-EXP-2025).
 - **Cash Prohibition:** Accepting cash, gift cards, loans, or stock equivalents from any customer, supplier, or competitor is strictly illegal and grounds for immediate termination.
 - **Government Officials:** Under the Foreign Corrupt Practices Act (FCPA), providing any gift, meal, entertainment, or hospitality of any value to government officials is prohibited without prior written clearance from General Counsel.
 

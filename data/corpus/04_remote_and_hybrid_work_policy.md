@@ -30,6 +30,7 @@ Employees are assigned one of three operational designations in their formal off
 
 ## 4. Home Office Equipment Stipend
 - **Initial Setup Stipend:** Newly hired hybrid and fully remote employees receive a one-time reimbursement stipend of up to **$500.00 USD** to procure home office equipment (ergonomic chair, external monitor, keyboard, mouse, or desk riser).
+- **Restricted Equipment Exclusions:** The stipend may NOT be used to purchase computing machines, external storage drives, network switches, or Wi-Fi routers with third-party firmware. Connecting personal Network-Attached Storage (NAS) or unapproved network hardware to company setups remains strictly prohibited under Information Security Policy (POL-SEC-2025).
 - **Claim Process:** Receipts must be submitted through the expense portal within ninety (90) days of the employee's start date.
 - **Ownership:** Peripherals and ergonomic furnishings purchased with the stipend remain the personal property of the employee upon separation.
 

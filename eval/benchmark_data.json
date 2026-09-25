@@ -1,182 +1,252 @@
 [
   {
     "id": "Q01",
-    "category": "Expenses",
+    "category": "factual_standard",
     "question": "What is the maximum daily reimbursement for business meals?",
     "expected_doc_id": "POL-EXP-2025",
     "expected_section": "4. Meals and Per Diem Allowances",
     "gold_answer": "The maximum total meal reimbursement is $75.00 USD per day while on overnight business travel.",
-    "is_in_corpus": true
+    "is_in_corpus": true,
+    "failure_risk_note": "Happy path: standard factual extraction from single section."
   },
   {
     "id": "Q02",
-    "category": "Expenses",
+    "category": "factual_standard",
     "question": "What is the receipt requirement threshold for travel expenses?",
     "expected_doc_id": "POL-EXP-2025",
     "expected_section": "5. Receipt Documentation and Submission Deadlines",
-    "gold_answer": "Itemized receipts are required for any individual transaction exceeding $25.00 USD.",
-    "is_in_corpus": true
+    "gold_answer": "Itemized receipts are required for any individual transaction of $25.01 USD or greater.",
+    "is_in_corpus": true,
+    "failure_risk_note": "Happy path: standard threshold retrieval."
   },
   {
     "id": "Q03",
-    "category": "PTO & Leave",
+    "category": "factual_standard",
     "question": "How many hours of unused accrued PTO can an employee roll over into the new year?",
     "expected_doc_id": "POL-PTO-2025",
     "expected_section": "4. Rollover Caps and Use-It-or-Lose-It Provisions",
     "gold_answer": "Employees may carry over a maximum of 40 hours (5 business days) of unused accrued PTO.",
-    "is_in_corpus": true
+    "is_in_corpus": true,
+    "failure_risk_note": "Happy path: single section retrieval."
   },
   {
     "id": "Q04",
-    "category": "PTO & Leave",
+    "category": "factual_standard",
     "question": "How many weeks of paid parental leave are primary caregivers entitled to?",
     "expected_doc_id": "POL-PTO-2025",
     "expected_section": "6. Parental Leave",
     "gold_answer": "Primary caregivers who have completed at least 6 months of service are entitled to 16 weeks of 100% paid parental leave.",
-    "is_in_corpus": true
+    "is_in_corpus": true,
+    "failure_risk_note": "Happy path: primary caregiver duration."
   },
   {
     "id": "Q05",
-    "category": "Information Security",
+    "category": "factual_standard",
     "question": "What are the password length and complexity rules?",
     "expected_doc_id": "POL-SEC-2025",
     "expected_section": "2. Authentication, Passwords, and Multi-Factor Authentication (MFA)",
     "gold_answer": "Passwords must be at least 14 characters long and include an uppercase letter, lowercase letter, number, and special character.",
-    "is_in_corpus": true
+    "is_in_corpus": true,
+    "failure_risk_note": "Happy path: security complexity checklist."
   },
   {
     "id": "Q06",
-    "category": "Information Security",
+    "category": "factual_standard",
     "question": "How long before an inactive computer screen must automatically lock?",
     "expected_doc_id": "POL-SEC-2025",
     "expected_section": "4. Workstation Security and Clean Desk Standard",
     "gold_answer": "Displays must automatically lock after 5 minutes of user inactivity.",
-    "is_in_corpus": true
+    "is_in_corpus": true,
+    "failure_risk_note": "Happy path: numerical inactivity window."
   },
   {
     "id": "Q07",
-    "category": "Remote Work",
+    "category": "factual_standard",
     "question": "What are the mandatory core working hours for employees?",
     "expected_doc_id": "POL-RMT-2025",
     "expected_section": "3. Core Working Hours and Availability",
-    "gold_answer": "Core collaboration hours are 10:00 AM to 4:00 PM Eastern Standard Time (EST), Monday through Friday.",
-    "is_in_corpus": true
+    "gold_answer": "All employees must be available during core hours between 10:00 AM and 4:00 PM Eastern Standard Time (EST).",
+    "is_in_corpus": true,
+    "failure_risk_note": "Happy path: temporal window extraction."
   },
   {
     "id": "Q08",
-    "category": "Remote Work",
-    "question": "How much is the one-time home office equipment setup stipend?",
-    "expected_doc_id": "POL-RMT-2025",
-    "expected_section": "4. Home Office Equipment Stipend",
-    "gold_answer": "The one-time home office equipment setup stipend is up to $500.00 USD.",
-    "is_in_corpus": true
-  },
-  {
-    "id": "Q09",
-    "category": "Holidays & Hours",
-    "question": "How many floating holidays do full-time employees receive annually?",
-    "expected_doc_id": "POL-HOL-2025",
-    "expected_section": "3. Floating Holidays",
-    "gold_answer": "Full-time employees receive 2 paid floating holidays (16 hours) on January 1 each calendar year.",
-    "is_in_corpus": true
-  },
-  {
-    "id": "Q10",
-    "category": "Holidays & Hours",
-    "question": "What is the weekly standby stipend for primary engineering on-call rotation?",
-    "expected_doc_id": "POL-HOL-2025",
-    "expected_section": "5. Engineering On-Call and Incident Standby",
-    "gold_answer": "The standby stipend is $350.00 USD per 7-day shift.",
-    "is_in_corpus": true
-  },
-  {
-    "id": "Q11",
-    "category": "Code of Conduct",
-    "question": "What is the maximum allowable value for gifts from vendors or suppliers?",
-    "expected_doc_id": "POL-COC-2025",
-    "expected_section": "4. Gifts, Entertainment, and Anti-Bribery",
-    "gold_answer": "Employees may accept business gifts of nominal value not exceeding $50.00 USD per vendor per year.",
-    "is_in_corpus": true
-  },
-  {
-    "id": "Q12",
-    "category": "Equipment & BYOD",
-    "question": "What is the hardware replacement lifecycle for corporate laptops?",
-    "expected_doc_id": "POL-EQP-2025",
-    "expected_section": "1. Corporate Hardware Provisioning",
-    "gold_answer": "Corporate laptops are scheduled for replacement every 36 months of continuous service.",
-    "is_in_corpus": true
-  },
-  {
-    "id": "Q13",
-    "category": "Equipment & BYOD",
-    "question": "Within how many hours must lost or stolen company equipment be reported?",
-    "expected_doc_id": "POL-EQP-2025",
-    "expected_section": "3. Loss, Theft, and Damage Protocol",
-    "gold_answer": "Loss or theft must be reported to IT and Security within 24 hours of occurrence.",
-    "is_in_corpus": true
-  },
-  {
-    "id": "Q14",
-    "category": "Benefits",
+    "category": "factual_standard",
     "question": "How much does Apex Technologies match employee 401(k) contributions?",
     "expected_doc_id": "POL-BEN-2025",
     "expected_section": "2. 401(k) Retirement Savings and Employer Matching",
-    "gold_answer": "Apex matches 100% of employee contributions up to the first 5% of eligible annual base salary.",
-    "is_in_corpus": true
+    "gold_answer": "Apex matches 100% of employee contributions up to the first 5% of eligible annual base salary with immediate vesting.",
+    "is_in_corpus": true,
+    "failure_risk_note": "Happy path: percentage matching and vesting."
+  },
+  {
+    "id": "Q09",
+    "category": "factual_standard",
+    "question": "What is the hardware replacement lifecycle for corporate laptops?",
+    "expected_doc_id": "POL-EQP-2025",
+    "expected_section": "2. Standard Hardware Provisioning and Refresh Cycles",
+    "gold_answer": "Standard engineering laptops are refreshed on a 36-month (3-year) lifecycle.",
+    "is_in_corpus": true,
+    "failure_risk_note": "Happy path: equipment lifecycle."
+  },
+  {
+    "id": "Q10",
+    "category": "factual_standard",
+    "question": "Within how many days must an employee report an ethics or conduct grievance?",
+    "expected_doc_id": "POL-WBL-2025",
+    "expected_section": "2. Reporting Channels and Intake Procedures",
+    "gold_answer": "Employees are encouraged to report incidents within 30 calendar days of occurrence.",
+    "is_in_corpus": true,
+    "failure_risk_note": "Happy path: procedural reporting window."
+  },
+  {
+    "id": "Q11",
+    "category": "borderline_tension",
+    "question": "I am traveling for work and hosting a prospective client for dinner. Can I expense a $120 dinner, and whose approval is required?",
+    "expected_doc_id": "POL-EXP-2025",
+    "expected_section": "4. Meals and Per Diem Allowances",
+    "gold_answer": "Yes, hosting prospective clients allows expenses up to $150.00 USD per person (exceeding standard $75 per diem) with prior written pre-approval from a Senior Director or Vice President (VP).",
+    "is_in_corpus": true,
+    "failure_risk_note": "Failure Mode (Context Tension): Naive RAG retrieves the $75 standard travel meal cap and incorrectly rejects the $120 expense, missing the client entertainment exception."
+  },
+  {
+    "id": "Q12",
+    "category": "borderline_tension",
+    "question": "Can I use my $500 remote home office stipend to purchase a network-attached storage (NAS) backup drive for my company laptop?",
+    "expected_doc_id": "POL-RMT-2025",
+    "expected_section": "4. Home Office Equipment Stipend",
+    "gold_answer": "No. Although remote employees receive a $500 home office stipend, the policy strictly excludes external storage devices, and Information Security Policy (POL-SEC-2025) strictly prohibits connecting personal Network-Attached Storage (NAS) to company workstations.",
+    "is_in_corpus": true,
+    "failure_risk_note": "Failure Mode (Cross-Policy Conflict): Remote Work allows $500 for equipment, but Security Policy explicitly bans NAS devices. Models frequently answer 'Yes' based solely on the $500 allowance."
+  },
+  {
+    "id": "Q13",
+    "category": "borderline_tension",
+    "question": "Can an employee take accrued general PTO hours concurrently during their 16-week paid parental leave to receive double pay?",
+    "expected_doc_id": "POL-PTO-2025",
+    "expected_section": "6. Parental Leave",
+    "gold_answer": "No. Employees are strictly prohibited from stacking or using accrued general PTO concurrently during paid parental leave for double pay, though they may take up to 2 weeks (80 hours) consecutively immediately after parental leave ends.",
+    "is_in_corpus": true,
+    "failure_risk_note": "Failure Mode (Temporal & Policy Nuance): The model might see PTO accrual and 16 weeks leave, confusing 'consecutive after' with 'concurrent during'."
+  },
+  {
+    "id": "Q14",
+    "category": "borderline_tension",
+    "question": "A commercial supplier invited me to an expensive vendor-hosted dinner costing $120 per attendee. Can I attend under company ethics rules?",
+    "expected_doc_id": "POL-COC-2025",
+    "expected_section": "4. Gifts, Entertainment, and Anti-Bribery",
+    "gold_answer": "Vendor-hosted dinners or entertainment exceeding $100.00 USD per attendee require advance written clearance from Legal & Compliance before attending.",
+    "is_in_corpus": true,
+    "failure_risk_note": "Failure Mode (Cross-Domain Conflation): Model may confuse vendor hospitality rules ($100 threshold in POL-COC-2025) with company-funded client meals ($150 cap in POL-EXP-2025)."
   },
   {
     "id": "Q15",
-    "category": "Benefits",
-    "question": "What is the annual continuing education and professional development budget?",
-    "expected_doc_id": "POL-BEN-2025",
-    "expected_section": "4. Professional Development and Continuing Education",
-    "gold_answer": "Eligible employees receive up to $1,500.00 USD per calendar year for continuing education.",
-    "is_in_corpus": true
+    "category": "borderline_tension",
+    "question": "Can an employee on an emergency customer support rotation take summer Friday afternoons off at 1:00 PM?",
+    "expected_doc_id": "POL-HOL-2025",
+    "expected_section": "2. Standard Working Hours and Flexible Schedules",
+    "gold_answer": "Employees in operational critical roles such as support or incident response must maintain minimum coverage and take equivalent compensatory time off on an alternate weekday approved by their manager.",
+    "is_in_corpus": true,
+    "failure_risk_note": "Failure Mode (Exception Override): General summer Friday policy allows 1:00 PM logoff, but critical operational roles are exempt from taking that specific afternoon."
   },
   {
     "id": "Q16",
-    "category": "Whistleblower",
-    "question": "What is the turnaround timeline for concluding a formal whistleblower investigation?",
-    "expected_doc_id": "POL-WBL-2025",
-    "expected_section": "4. Investigation Procedures and Timelines",
-    "gold_answer": "The formal investigation team will conclude the primary investigation report within 14 business days.",
-    "is_in_corpus": true
+    "category": "borderline_boundary",
+    "question": "A vendor sent me a promotional gift basket valued at exactly $50.00 USD. Am I required to surrender it to HR?",
+    "expected_doc_id": "POL-COC-2025",
+    "expected_section": "4. Gifts, Entertainment, and Anti-Bribery",
+    "gold_answer": "No. Non-cash gifts valued at exactly $50.00 USD or less may be retained by the employee; only gifts valued at $50.01 USD or greater must be registered and surrendered.",
+    "is_in_corpus": true,
+    "failure_risk_note": "Failure Mode (Boundary Condition): Strict boundary test between <= $50.00 (allowed) and >= $50.01 (surrender required). Models often hallucinate that $50 must be surrendered."
   },
   {
     "id": "Q17",
-    "category": "Performance",
-    "question": "What is the standard duration of a formal Performance Improvement Plan (PIP)?",
-    "expected_doc_id": "POL-PER-2025",
-    "expected_section": "4. Performance Improvement Plan (PIP) Guidelines",
-    "gold_answer": "The standard PIP duration is 60 calendar days.",
-    "is_in_corpus": true
+    "category": "borderline_boundary",
+    "question": "I took a taxi from the airport that cost exactly $25.00 USD. Do I need an itemized merchant receipt to expense it?",
+    "expected_doc_id": "POL-EXP-2025",
+    "expected_section": "5. Receipt Documentation and Submission Deadlines",
+    "gold_answer": "No. Transactions of $25.00 USD or less do not require an itemized receipt; itemized receipts are strictly mandated for transactions of $25.01 USD or greater.",
+    "is_in_corpus": true,
+    "failure_risk_note": "Failure Mode (Boundary Condition): Testing $25.00 ceiling vs $25.01 itemization requirement."
   },
   {
     "id": "Q18",
-    "category": "Guardrail Refusal (Adversarial)",
-    "question": "What is the recipe for beef lasagna?",
-    "expected_doc_id": null,
-    "expected_section": null,
-    "gold_answer": "I can only answer questions regarding our company policies and procedures based on the provided documentation.",
-    "is_in_corpus": false
+    "category": "borderline_boundary",
+    "question": "An employee has 48 hours of unused accrued PTO on December 31. How many hours carry over into next year, and what happens to the rest?",
+    "expected_doc_id": "POL-PTO-2025",
+    "expected_section": "4. Rollover Caps and Use-It-or-Lose-It Provisions",
+    "gold_answer": "A maximum of 40 hours carries over into the new year. The remaining 8 hours are forfeited if not used by March 31.",
+    "is_in_corpus": true,
+    "failure_risk_note": "Failure Mode (Mathematical Cap Arithmetic): Naive models may answer all 48 hours roll over or fail to mention the forfeiture of the excess 8 hours."
   },
   {
     "id": "Q19",
-    "category": "Guardrail Refusal (Adversarial)",
-    "question": "Who won the World Series baseball championship in 2024?",
-    "expected_doc_id": null,
-    "expected_section": null,
-    "gold_answer": "I can only answer questions regarding our company policies and procedures based on the provided documentation.",
-    "is_in_corpus": false
+    "category": "borderline_boundary",
+    "question": "If my home broadband goes down for 90 minutes during the workday, am I required to relocate to an office or co-working space?",
+    "expected_doc_id": "POL-RMT-2025",
+    "expected_section": "5. Internet and Connectivity Standards",
+    "gold_answer": "No. The mandatory transition to a nearby co-working space, mobile cellular hotspot, or corporate office is triggered for home internet outages exceeding 2 hours.",
+    "is_in_corpus": true,
+    "failure_risk_note": "Failure Mode (Duration Boundary): 90 minutes is below the 2-hour (120 min) mandatory relocation threshold."
   },
   {
     "id": "Q20",
-    "category": "Guardrail Refusal (Adversarial)",
-    "question": "Can you write Python code to train a convolutional neural network?",
-    "expected_doc_id": null,
-    "expected_section": null,
+    "category": "borderline_unspecified",
+    "question": "Can I bring my certified emotional support dog into the open-plan office on Wellness Days?",
+    "expected_doc_id": "POL-BEN-2025",
+    "expected_section": "5. Workplace Animals and Assistance Animals",
+    "gold_answer": "No. Emotional support animals (ESAs), comfort pets, and therapy animals are strictly prohibited in all corporate offices; only ADA-trained service dogs individually trained for task assistance are permitted with Facilities notice.",
+    "is_in_corpus": true,
+    "failure_risk_note": "Failure Mode (Category Discrimination): Conflating emotional support animals (banned) with ADA service dogs (permitted)."
+  },
+  {
+    "id": "Q21",
+    "category": "borderline_unspecified",
+    "question": "Can I run an automated personal cryptocurrency trading bot on my company laptop during my designated lunch break?",
+    "expected_doc_id": "POL-SEC-2025",
+    "expected_section": "4. Workstation Security and Clean Desk Standard",
+    "gold_answer": "No. Conducting cryptocurrency mining, automated trading bots, or unauthorized server processes on corporate workstations is strictly prohibited at all times, including during lunch breaks or after hours.",
+    "is_in_corpus": true,
+    "failure_risk_note": "Failure Mode (Disguised Policy Activity): Answering whether personal lunch-hour activities permit crypto bots on corporate endpoints."
+  },
+  {
+    "id": "Q22",
+    "category": "borderline_unspecified",
+    "question": "What is the company policy on flying personal recreational drones across the corporate office campus?",
+    "expected_doc_id": "OUT_OF_CORPUS",
+    "expected_section": "None",
     "gold_answer": "I can only answer questions regarding our company policies and procedures based on the provided documentation.",
-    "is_in_corpus": false
+    "is_in_corpus": false,
+    "failure_risk_note": "Failure Mode (Disguised Corporate Policy Hallucination): Sounds like a plausible facility policy but is completely unmentioned in the corpus. Model must trigger standard refusal."
+  },
+  {
+    "id": "Q23",
+    "category": "adversarial_refusal",
+    "question": "What was the final score of yesterday's basketball game?",
+    "expected_doc_id": "OUT_OF_CORPUS",
+    "expected_section": "None",
+    "gold_answer": "I can only answer questions regarding our company policies and procedures based on the provided documentation.",
+    "is_in_corpus": false,
+    "failure_risk_note": "Adversarial Out-of-Scope: Complete topic disconnect. Must trigger exact guardrail refusal."
+  },
+  {
+    "id": "Q24",
+    "category": "adversarial_refusal",
+    "question": "Can you write a Python script using pandas to parse and clean financial CSV reports?",
+    "expected_doc_id": "OUT_OF_CORPUS",
+    "expected_section": "None",
+    "gold_answer": "I can only answer questions regarding our company policies and procedures based on the provided documentation.",
+    "is_in_corpus": false,
+    "failure_risk_note": "Adversarial Code Injection: Prompting for programming code. Must trigger refusal."
+  },
+  {
+    "id": "Q25",
+    "category": "adversarial_refusal",
+    "question": "Who was the 16th president of the United States and what year was the Gettysburg Address?",
+    "expected_doc_id": "OUT_OF_CORPUS",
+    "expected_section": "None",
+    "gold_answer": "I can only answer questions regarding our company policies and procedures based on the provided documentation.",
+    "is_in_corpus": false,
+    "failure_risk_note": "Adversarial World Knowledge: General history question. Must trigger refusal."
   }
 ]

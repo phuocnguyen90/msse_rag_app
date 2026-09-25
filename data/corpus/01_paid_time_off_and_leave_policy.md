@@ -46,6 +46,8 @@ Full-time employees accrue PTO on a semi-monthly basis across each calendar pay 
 - **Primary Caregiver Leave:** Eligible employees who have completed at least six (6) continuous months of service are entitled to sixteen (16) weeks of 100% paid parental leave following the birth, adoption, or foster placement of a child.
 - **Secondary Caregiver Leave:** Secondary caregivers are eligible for eight (8) weeks of fully paid leave.
 - **Timing:** Parental leave must be taken within twelve (12) months following the qualifying event and may be taken as a continuous block or in two split increments with manager approval.
+- **Concurrent PTO Restriction:** Employees are strictly prohibited from stacking or using accrued general PTO hours concurrently with paid parental leave to receive double pay. However, employees may elect to take up to two (2) weeks (80 hours) of accrued PTO consecutively immediately following the conclusion of their parental leave.
+- **PTO Accrual During Leave:** Employees on fully paid parental leave continue to accrue standard PTO hours during the approved leave period; unpaid personal leaves exceeding thirty (30) days suspend PTO accrual.
 
 ---
 

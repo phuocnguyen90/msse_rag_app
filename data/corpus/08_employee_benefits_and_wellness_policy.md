@@ -33,3 +33,10 @@
 ## 4. Professional Development and Continuing Education
 - **Annual Education Budget:** Full-time staff who have completed at least six (6) months of tenure are eligible for up to **$1,500.00 USD per calendar year** in reimbursed tuition, technical certifications, industry conference admissions, and educational textbooks.
 - **Pre-Approval:** Coursework and conferences must be approved by the employee's direct manager prior to financial commitment.
+
+---
+
+## 5. Workplace Animals and Assistance Animals
+- **Pet-Free Office Facility:** Apex Technologies facilities maintain a strictly pet-free environment to accommodate colleagues with respiratory sensitivities and severe allergies.
+- **Service Animals (ADA):** Fully trained service dogs individually trained to do work or perform tasks for the benefit of an individual with a disability under the Americans with Disabilities Act (ADA) are permitted. Handlers must notify Facilities (`facilities@apextech.internal`) prior to initial office entry.
+- **Emotional Support and Companion Animals:** Emotional support animals (ESAs), comfort pets, therapy animals, and companion pets are strictly prohibited inside all corporate office spaces, client suites, and event facilities.

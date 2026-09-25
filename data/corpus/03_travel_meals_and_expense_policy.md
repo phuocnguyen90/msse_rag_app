@@ -29,18 +29,21 @@ Employees conducting authorized business travel or incurring necessary operation
 ---
 
 ## 4. Meals and Per Diem Allowances
-- **Daily Per Diem Cap:** Employees are eligible for a maximum total meal reimbursement of **$75.00 USD per day** while on overnight business travel.
+- **Daily Per Diem Cap:** Employees traveling alone on overnight business are eligible for a maximum total meal reimbursement of **$75.00 USD per day**.
 - **Individual Meal Breakdown:** Recommended guidelines:
   - Breakfast: up to $15.00
   - Lunch: up to $20.00
   - Dinner: up to $40.00
-- **Client Entertainment & Business Meals:** When hosting clients or prospects, expenses may exceed standard per diem caps provided the meal includes substantive business discourse. Prior manager approval and an explicit guest roster are required.
+- **Client Entertainment & Business Meal Exception:** When an employee hosts prospective clients, commercial partners, or customer executives, expenses may exceed the $75 daily cap up to a ceiling of **$150.00 USD per person**, provided:
+  1. The dinner includes substantive commercial business discussion.
+  2. The employee receives prior written pre-approval from a Senior Director or Vice President (VP).
+  3. An itemized receipt and itemized list of all attendee names and affiliations are attached to the expense report.
 - **Alcohol Policy:** Moderate alcohol consumption with dinner or client entertainment is permissible (maximum 2 drinks per person), provided it is accompanied by food.
 
 ---
 
 ## 5. Receipt Documentation and Submission Deadlines
-- **Mandatory Receipts:** Itemized receipts must be attached to the expense report for any individual transaction exceeding **$25.00 USD**. Credit card summary slips that do not detail purchased items will be rejected.
+- **Mandatory Receipts and Numeric Boundary:** Individual transactions of **$25.00 USD or less** do not require an itemized receipt (a simple credit card receipt or bank statement proof is accepted). Any individual transaction of **$25.01 USD or greater** strictly mandates an itemized merchant receipt displaying all individual goods and taxes. Un-itemized credit card summary slips for charges over $25.00 will be summarily rejected.
 - **Submission Window:** Expense reports must be submitted through the finance management system within **thirty (30) calendar days** of the expense date. Claims submitted past sixty (60) days are non-reimbursable except under documented extenuating medical circumstances.
 - **Reimbursement Processing:** Approved claims are deposited directly into the employee's designated payroll bank account within two (2) payroll cycles.
 

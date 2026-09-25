@@ -1,0 +1,796 @@
+{
+  "total_evaluated": 25,
+  "groundedness_pct": 80.0,
+  "citation_accuracy_pct": 96.0,
+  "latency_p50_ms": 3077.68,
+  "latency_p95_ms": 5811.13,
+  "latency_mean_ms": 3383.54,
+  "chat_model": "nex-agi/nex-n2.5-mini:free",
+  "category_breakdown": {
+    "factual_standard": {
+      "total": 10,
+      "groundedness_pct": 80.0,
+      "citation_accuracy_pct": 100.0,
+      "failure_count": 2,
+      "failures": [
+        {
+          "id": "Q07",
+          "question": "What are the mandatory core working hours for employees?",
+          "failure_reasons": [
+            "groundedness_failure"
+          ],
+          "risk_note": "Happy path: temporal window extraction.",
+          "actual_answer": "All employees must be online, reachable, and active on corporate communication channels from **10:00 AM to 4:00 PM EST, Monday through Friday**. [POL-RMT-2025, Sec 3]",
+          "gold_answer": "All employees must be available during core hours between 10:00 AM and 4:00 PM Eastern Standard Time (EST)."
+        },
+        {
+          "id": "Q10",
+          "question": "Within how many days must an employee report an ethics or conduct grievance?",
+          "failure_reasons": [
+            "groundedness_failure"
+          ],
+          "risk_note": "Happy path: procedural reporting window.",
+          "actual_answer": "The policy does not specify a fixed number of days for reporting an ethics or conduct grievance; harassment should be reported immediately. [POL-COC-2025, Sec 2]",
+          "gold_answer": "Employees are encouraged to report incidents within 30 calendar days of occurrence."
+        }
+      ]
+    },
+    "borderline_tension": {
+      "total": 5,
+      "groundedness_pct": 80.0,
+      "citation_accuracy_pct": 80.0,
+      "failure_count": 1,
+      "failures": [
+        {
+          "id": "Q15",
+          "question": "Can an employee on an emergency customer support rotation take summer Friday afternoons off at 1:00 PM?",
+          "failure_reasons": [
+            "groundedness_failure",
+            "citation_failure"
+          ],
+          "risk_note": "Failure Mode (Exception Override): General summer Friday policy allows 1:00 PM logoff, but critical operational roles are exempt from taking that specific afternoon.",
+          "actual_answer": "I can only answer questions regarding our company policies and procedures based on the provided documentation.",
+          "gold_answer": "Employees in operational critical roles such as support or incident response must maintain minimum coverage and take equivalent compensatory time off on an alternate weekday approved by their manager."
+        }
+      ]
+    },
+    "borderline_boundary": {
+      "total": 4,
+      "groundedness_pct": 50.0,
+      "citation_accuracy_pct": 100.0,
+      "failure_count": 2,
+      "failures": [
+        {
+          "id": "Q17",
+          "question": "I took a taxi from the airport that cost exactly $25.00 USD. Do I need an itemized merchant receipt to expense it?",
+          "failure_reasons": [
+            "groundedness_failure"
+          ],
+          "risk_note": "Failure Mode (Boundary Condition): Testing $25.00 ceiling vs $25.01 itemization requirement.",
+          "actual_answer": "No. Since the charge was exactly $25.00, an itemized merchant receipt is not required; a simple credit card receipt or bank statement proof is accepted. [POL-EXP-2025, Sec 5]",
+          "gold_answer": "No. Transactions of $25.00 USD or less do not require an itemized receipt; itemized receipts are strictly mandated for transactions of $25.01 USD or greater."
+        },
+        {
+          "id": "Q19",
+          "question": "If my home broadband goes down for 90 minutes during the workday, am I required to relocate to an office or co-working space?",
+          "failure_reasons": [
+            "groundedness_failure"
+          ],
+          "risk_note": "Failure Mode (Duration Boundary): 90 minutes is below the 2-hour (120 min) mandatory relocation threshold.",
+          "actual_answer": "No. The relocation requirement applies only when your home internet outage exceeds two hours; for a 90-minute outage, the policy does not require you to relocate. [POL-RMT-2025, Sec 5]",
+          "gold_answer": "No. The mandatory transition to a nearby co-working space, mobile cellular hotspot, or corporate office is triggered for home internet outages exceeding 2 hours."
+        }
+      ]
+    },
+    "borderline_unspecified": {
+      "total": 3,
+      "groundedness_pct": 100.0,
+      "citation_accuracy_pct": 100.0,
+      "failure_count": 0,
+      "failures": []
+    },
+    "adversarial_refusal": {
+      "total": 3,
+      "groundedness_pct": 100.0,
+      "citation_accuracy_pct": 100.0,
+      "failure_count": 0,
+      "failures": []
+    }
+  },
+  "ablation_retrieval_depth": {
+    "k=2": {
+      "avg_retrieval_ms": 833.2,
+      "chunks_returned": 2
+    },
+    "k=4": {
+      "avg_retrieval_ms": 821.37,
+      "chunks_returned": 4
+    },
+    "k=6": {
+      "avg_retrieval_ms": 903.31,
+      "chunks_returned": 6
+    }
+  },
+  "detailed_results": [
+    {
+      "id": "Q01",
+      "category": "factual_standard",
+      "question": "What is the maximum daily reimbursement for business meals?",
+      "answer": "For employees traveling alone on overnight business, the maximum total meal reimbursement is **$75 USD per day**. [POL-EXP-2025, Sec 4] Qualifying client entertainment meals may exceed this up to **$150 USD per person** when the dinner includes substantive commercial discussion and prior written pre-approval is received. [POL-EXP-2025, Sec 4]",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 3360.6,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Happy path: standard factual extraction from single section.",
+      "citations": [
+        {
+          "doc_id": "POL-EXP-2025",
+          "title": "Corporate Travel, Meals, and Expense Reimbursement Policy",
+          "section": "4. Meals and Per Diem Allowances",
+          "snippet": "## 4. Meals and Per Diem Allowances\n- **Daily Per Diem Cap:** Employees traveling alone on overnight business are eligible for a maximum total meal reimbursement of **$75.00 USD per day**.\n- **Individual Meal Breakdown:** Recommended guidelines:\n  - ..."
+        },
+        {
+          "doc_id": "POL-EXP-2025",
+          "title": "Corporate Travel, Meals, and Expense Reimbursement Policy",
+          "section": "3. Lodging and Hotel Caps",
+          "snippet": "## 3. Lodging and Hotel Caps\n- **Daily Rate Ceilings:** Nightly room rates must not exceed **$250 USD** (excluding local lodging taxes) for standard domestic metropolitan markets.\n- **High-Cost Tier Cities:** For designated tier-one metropolitan area..."
+        },
+        {
+          "doc_id": "POL-EXP-2025",
+          "title": "Corporate Travel, Meals, and Expense Reimbursement Policy",
+          "section": "5. Receipt Documentation and Submission Deadlines",
+          "snippet": "ystem within **thirty (30) calendar days** of the expense date. Claims submitted past sixty (60) days are non-reimbursable except under documented extenuating medical circumstances.\n- **Reimbursement Processing:** Approved claims are deposited direct..."
+        }
+      ]
+    },
+    {
+      "id": "Q02",
+      "category": "factual_standard",
+      "question": "What is the receipt requirement threshold for travel expenses?",
+      "answer": "For individual travel expenses, transactions of **$25.00 USD or less** do not require an itemized receipt; a simple credit card receipt or bank statement proof is accepted. [POL-EXP-2025, Sec 5] Transactions of **$25.01 USD or more** require an itemized merchant receipt showing all goods and taxes. [POL-EXP-2025, Sec 5]",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 3789.48,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Happy path: standard threshold retrieval.",
+      "citations": [
+        {
+          "doc_id": "POL-EXP-2025",
+          "title": "Corporate Travel, Meals, and Expense Reimbursement Policy",
+          "section": "5. Receipt Documentation and Submission Deadlines",
+          "snippet": "## 5. Receipt Documentation and Submission Deadlines\n- **Mandatory Receipts and Numeric Boundary:** Individual transactions of **$25.00 USD or less** do not require an itemized receipt (a simple credit card receipt or bank statement proof is accepted..."
+        },
+        {
+          "doc_id": "POL-EXP-2025",
+          "title": "Corporate Travel, Meals, and Expense Reimbursement Policy",
+          "section": "5. Receipt Documentation and Submission Deadlines",
+          "snippet": "ystem within **thirty (30) calendar days** of the expense date. Claims submitted past sixty (60) days are non-reimbursable except under documented extenuating medical circumstances.\n- **Reimbursement Processing:** Approved claims are deposited direct..."
+        },
+        {
+          "doc_id": "POL-EXP-2025",
+          "title": "Corporate Travel, Meals, and Expense Reimbursement Policy",
+          "section": "2. Air Travel and Transportation",
+          "snippet": "## 2. Air Travel and Transportation\n- **Booking Channel:** All business flights must be booked through the corporate travel portal (Navan/Concur) at least fourteen (14) days prior to domestic departure and twenty-one (21) days prior to international ..."
+        }
+      ]
+    },
+    {
+      "id": "Q03",
+      "category": "factual_standard",
+      "question": "How many hours of unused accrued PTO can an employee roll over into the new year?",
+      "answer": "An employee may carry over a maximum of **40 hours (5 business days)** of unused accrued PTO into the subsequent calendar year. [POL-PTO-2025, Sec 4]",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 3634.03,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Happy path: single section retrieval.",
+      "citations": [
+        {
+          "doc_id": "POL-PTO-2025",
+          "title": "Paid Time Off (PTO) and Leave Policy",
+          "section": "4. Rollover Caps and Use-It-or-Lose-It Provisions",
+          "snippet": "## 4. Rollover Caps and Use-It-or-Lose-It Provisions\n- **Annual Rollover Cap:** Employees may carry over a maximum of forty (40) hours (5 business days) of unused accrued PTO into the subsequent calendar year.\n- **Rollover Deadline:** Any carried-ove..."
+        },
+        {
+          "doc_id": "POL-PTO-2025",
+          "title": "Paid Time Off (PTO) and Leave Policy",
+          "section": "8. Separation of Employment and Final Payout",
+          "snippet": "## 8. Separation of Employment and Final Payout\nUpon voluntary resignation or involuntary termination in good standing:\n- Accrued, unused PTO is paid out on the final paycheck at the employee's regular hourly base rate, up to a maximum cap of eighty ..."
+        },
+        {
+          "doc_id": "POL-PTO-2025",
+          "title": "Paid Time Off (PTO) and Leave Policy",
+          "section": "2. PTO Accrual and Tiers",
+          "snippet": "## 2. PTO Accrual and Tiers\nFull-time employees accrue PTO on a semi-monthly basis across each calendar pay period according to their tenure with the company:\n\n- **Tier 1 (0 to 2 Years of Service):** Accrue 15 days (120 hours) per calendar year, at a..."
+        }
+      ]
+    },
+    {
+      "id": "Q04",
+      "category": "factual_standard",
+      "question": "How many weeks of paid parental leave are primary caregivers entitled to?",
+      "answer": "Eligible primary caregivers who have completed at least six continuous months of service are entitled to 16 weeks of 100% paid parental leave following the birth, adoption, or foster placement of a child. [POL-PTO-2025, Section 6]",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 3186.75,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Happy path: primary caregiver duration.",
+      "citations": [
+        {
+          "doc_id": "POL-PTO-2025",
+          "title": "Paid Time Off (PTO) and Leave Policy",
+          "section": "6. Parental Leave",
+          "snippet": "## 6. Parental Leave\n- **Primary Caregiver Leave:** Eligible employees who have completed at least six (6) continuous months of service are entitled to sixteen (16) weeks of 100% paid parental leave following the birth, adoption, or foster placement ..."
+        },
+        {
+          "doc_id": "POL-PTO-2025",
+          "title": "Paid Time Off (PTO) and Leave Policy",
+          "section": "6. Parental Leave",
+          "snippet": "striction:** Employees are strictly prohibited from stacking or using accrued general PTO hours concurrently with paid parental leave to receive double pay. However, employees may elect to take up to two (2) weeks (80 hours) of accrued PTO consecutiv..."
+        },
+        {
+          "doc_id": "POL-PTO-2025",
+          "title": "Paid Time Off (PTO) and Leave Policy",
+          "section": "7. Bereavement Leave",
+          "snippet": "## 7. Bereavement Leave\n- **Immediate Family:** Employees are granted up to five (5) consecutive paid days of bereavement leave in the event of the loss of an immediate family member (spouse, child, parent, sibling, or domestic partner).\n- **Extended..."
+        }
+      ]
+    },
+    {
+      "id": "Q05",
+      "category": "factual_standard",
+      "question": "What are the password length and complexity rules?",
+      "answer": "Company passwords must be at least fourteen (14) characters long and include at least one uppercase letter, one lowercase letter, one numeric digit, and one special character (e.g., `!@#$%^&*`). [POL-SEC-2025, Sec 2]",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 2862.75,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Happy path: security complexity checklist.",
+      "citations": [
+        {
+          "doc_id": "POL-SEC-2025",
+          "title": "Information Security and Acceptable Use Policy",
+          "section": "2. Authentication, Passwords, and Multi-Factor Authentication (MFA)",
+          "snippet": "## 2. Authentication, Passwords, and Multi-Factor Authentication (MFA)\n- **Password Length & Complexity:** Passwords must be at least fourteen (14) characters long and incorporate at least one uppercase letter, one lowercase letter, one numeric digit..."
+        },
+        {
+          "doc_id": "POL-SEC-2025",
+          "title": "Information Security and Acceptable Use Policy",
+          "section": "4. Workstation Security and Clean Desk Standard",
+          "snippet": "## 4. Workstation Security and Clean Desk Standard\n- **Screen Lock Timeout:** All laptops and workstations must be configured to automatically lock displays after five (5) minutes of user inactivity.\n- **Manual Locking:** Employees must manually lock..."
+        },
+        {
+          "doc_id": "POL-SEC-2025",
+          "title": "Information Security and Acceptable Use Policy",
+          "section": "2. Authentication, Passwords, and Multi-Factor Authentication (MFA)",
+          "snippet": "ss all corporate accounts, VPN gateways, cloud consoles, code repositories, and email inboxes. SMS-based verification is deprecated; employees must utilize hardware security keys (e.g., YubiKey) or time-based one-time password (TOTP) authenticator ap..."
+        }
+      ]
+    },
+    {
+      "id": "Q06",
+      "category": "factual_standard",
+      "question": "How long before an inactive computer screen must automatically lock?",
+      "answer": "All laptop and workstation displays must automatically lock after five (5) minutes of user inactivity. [POL-SEC-2025, Section 4]",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 2421.87,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Happy path: numerical inactivity window.",
+      "citations": [
+        {
+          "doc_id": "POL-SEC-2025",
+          "title": "Information Security and Acceptable Use Policy",
+          "section": "4. Workstation Security and Clean Desk Standard",
+          "snippet": "## 4. Workstation Security and Clean Desk Standard\n- **Screen Lock Timeout:** All laptops and workstations must be configured to automatically lock displays after five (5) minutes of user inactivity.\n- **Manual Locking:** Employees must manually lock..."
+        },
+        {
+          "doc_id": "POL-RMT-2025",
+          "title": "Remote and Hybrid Work Policy",
+          "section": "6. Remote Information Security",
+          "snippet": "## 6. Remote Information Security\n- **Physical Security:** Remote employees must ensure family members, housemates, and visitors cannot observe confidential client information or internal communications displayed on computer screens.\n- **Secure Netwo..."
+        },
+        {
+          "doc_id": "POL-SEC-2025",
+          "title": "Information Security and Acceptable Use Policy",
+          "section": "2. Authentication, Passwords, and Multi-Factor Authentication (MFA)",
+          "snippet": "## 2. Authentication, Passwords, and Multi-Factor Authentication (MFA)\n- **Password Length & Complexity:** Passwords must be at least fourteen (14) characters long and incorporate at least one uppercase letter, one lowercase letter, one numeric digit..."
+        }
+      ]
+    },
+    {
+      "id": "Q07",
+      "category": "factual_standard",
+      "question": "What are the mandatory core working hours for employees?",
+      "answer": "All employees must be online, reachable, and active on corporate communication channels from **10:00 AM to 4:00 PM EST, Monday through Friday**. [POL-RMT-2025, Sec 3]",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 3712.5,
+      "is_grounded": false,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Happy path: temporal window extraction.",
+      "citations": [
+        {
+          "doc_id": "POL-RMT-2025",
+          "title": "Remote and Hybrid Work Policy",
+          "section": "3. Core Working Hours and Availability",
+          "snippet": "## 3. Core Working Hours and Availability\n- **Core Hours:** All employees, regardless of location, must be online, reachable, and active on corporate communication channels (Slack, email, Google Meet) during core collaboration hours: **10:00 AM to 4:..."
+        },
+        {
+          "doc_id": "POL-HOL-2025",
+          "title": "Holidays and Working Hours Policy",
+          "section": "1. Standard Working Hours",
+          "snippet": "## 1. Standard Working Hours\n- **Workweek Schedule:** The standard full-time workweek consists of forty (40) hours, typically scheduled Monday through Friday, eight (8) hours per day.\n- **Core Hours:** Team members must be available and responsive du..."
+        },
+        {
+          "doc_id": "POL-RMT-2025",
+          "title": "Remote and Hybrid Work Policy",
+          "section": "3. Core Working Hours and Availability",
+          "snippet": "te team members are expected to have web cameras enabled for team meetings, customer presentations, and company all-hands, unless an audio-only exception is granted by the organizer.\n\n---"
+        }
+      ]
+    },
+    {
+      "id": "Q08",
+      "category": "factual_standard",
+      "question": "How much does Apex Technologies match employee 401(k) contributions?",
+      "answer": "Apex Technologies matches 100% of employee 401(k) contributions up to the first 5% of the employee\u2019s eligible annual base salary. [POL-BEN-2025, Sec. 2]",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 5874.62,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Happy path: percentage matching and vesting.",
+      "citations": [
+        {
+          "doc_id": "POL-BEN-2025",
+          "title": "Employee Benefits, Health, and Wellness Policy",
+          "section": "2. 401(k) Retirement Savings and Employer Matching",
+          "snippet": "## 2. 401(k) Retirement Savings and Employer Matching\n- **Eligibility:** Full-time and part-time employees are eligible to enroll immediately upon their date of hire.\n- **Matching Contribution:** Apex Technologies matches **100% of employee contribut..."
+        },
+        {
+          "doc_id": "POL-BEN-2025",
+          "title": "Employee Benefits, Health, and Wellness Policy",
+          "section": "1. Comprehensive Healthcare Benefits",
+          "snippet": "## 1. Comprehensive Healthcare Benefits\n- **Coverage Effective Date:** Health, dental, and vision insurance coverage takes effect on the **first day of the calendar month following the date of hire**.\n- **Plan Options:** Apex Technologies offers thre..."
+        },
+        {
+          "doc_id": "POL-PTO-2025",
+          "title": "Paid Time Off (PTO) and Leave Policy",
+          "section": "4. Rollover Caps and Use-It-or-Lose-It Provisions",
+          "snippet": "## 4. Rollover Caps and Use-It-or-Lose-It Provisions\n- **Annual Rollover Cap:** Employees may carry over a maximum of forty (40) hours (5 business days) of unused accrued PTO into the subsequent calendar year.\n- **Rollover Deadline:** Any carried-ove..."
+        }
+      ]
+    },
+    {
+      "id": "Q09",
+      "category": "factual_standard",
+      "question": "What is the hardware replacement lifecycle for corporate laptops?",
+      "answer": "Corporate laptops are scheduled for standard replacement every 36 months of continuous service. [POL-EQP-2025, Sec 1]",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 3031.42,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Happy path: equipment lifecycle.",
+      "citations": [
+        {
+          "doc_id": "POL-EQP-2025",
+          "title": "Company Equipment and Bring-Your-Own-Device (BYOD) Policy",
+          "section": "1. Corporate Hardware Provisioning",
+          "snippet": "## 1. Corporate Hardware Provisioning\n- **Primary Workstation:** Full-time technical staff receive a standard corporate laptop (Apple MacBook Pro 16\" M-series or Dell XPS 15 Developer Edition) pre-configured with corporate endpoint protection and ful..."
+        },
+        {
+          "doc_id": "POL-EQP-2025",
+          "title": "Company Equipment and Bring-Your-Own-Device (BYOD) Policy",
+          "section": "3. Loss, Theft, and Damage Protocol",
+          "snippet": "## 3. Loss, Theft, and Damage Protocol\n- **Reporting Window:** In the event of loss or theft of any corporate laptop, phone, or MFA security key, the employee must notify the IT Helpdesk and Security Operations (`security-incident@apextech.internal`)..."
+        },
+        {
+          "doc_id": "POL-SEC-2025",
+          "title": "Information Security and Acceptable Use Policy",
+          "section": "4. Workstation Security and Clean Desk Standard",
+          "snippet": "## 4. Workstation Security and Clean Desk Standard\n- **Screen Lock Timeout:** All laptops and workstations must be configured to automatically lock displays after five (5) minutes of user inactivity.\n- **Manual Locking:** Employees must manually lock..."
+        }
+      ]
+    },
+    {
+      "id": "Q10",
+      "category": "factual_standard",
+      "question": "Within how many days must an employee report an ethics or conduct grievance?",
+      "answer": "The policy does not specify a fixed number of days for reporting an ethics or conduct grievance; harassment should be reported immediately. [POL-COC-2025, Sec 2]",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 2555.17,
+      "is_grounded": false,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Happy path: procedural reporting window.",
+      "citations": [
+        {
+          "doc_id": "POL-WBL-2025",
+          "title": "Whistleblower Protection and Grievance Resolution Policy",
+          "section": "2. Confidential and Anonymous Reporting Channels",
+          "snippet": "## 2. Confidential and Anonymous Reporting Channels\nIndividuals may report concerns through any of the following independent channels:\n- **Ethics Hotline:** Toll-free 24/7 confidential phone line: `1-800-555-APEX-ETHICS`.\n- **Online Reporting Portal:..."
+        },
+        {
+          "doc_id": "POL-WBL-2025",
+          "title": "Whistleblower Protection and Grievance Resolution Policy",
+          "section": "4. Investigation Procedures and Timelines",
+          "snippet": "## 4. Investigation Procedures and Timelines\n- **Initial Triage:** All reported submissions are reviewed by the Chief Compliance Officer within **forty-eight (48) hours** of receipt.\n- **Formal Investigation:** The independent investigation team will..."
+        },
+        {
+          "doc_id": "POL-COC-2025",
+          "title": "Code of Conduct and Anti-Harassment Policy",
+          "section": "2. Anti-Harassment and Non-Discrimination",
+          "snippet": "## 2. Anti-Harassment and Non-Discrimination\n- **Prohibited Conduct:** Harassment based on race, color, religion, sex, sexual orientation, gender identity, national origin, age, disability, or genetic information is strictly forbidden.\n- **Sexual Har..."
+        }
+      ]
+    },
+    {
+      "id": "Q11",
+      "category": "borderline_tension",
+      "question": "I am traveling for work and hosting a prospective client for dinner. Can I expense a $120 dinner, and whose approval is required?",
+      "answer": "Yes\u2014if the $120 is **per person**, it may be reimbursed because company-hosted prospective-client dinners can cost up to $150 per person [POL-EXP-2025, Sec 4]. Prior written approval from a **Senior Director or Vice President (VP)** is required, along with a substantive business discussion, an itemized receipt, and an itemized attendee list [POL-EXP-2025, Sec 4].",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 3077.68,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Failure Mode (Context Tension): Naive RAG retrieves the $75 standard travel meal cap and incorrectly rejects the $120 expense, missing the client entertainment exception.",
+      "citations": [
+        {
+          "doc_id": "POL-EXP-2025",
+          "title": "Corporate Travel, Meals, and Expense Reimbursement Policy",
+          "section": "4. Meals and Per Diem Allowances",
+          "snippet": "## 4. Meals and Per Diem Allowances\n- **Daily Per Diem Cap:** Employees traveling alone on overnight business are eligible for a maximum total meal reimbursement of **$75.00 USD per day**.\n- **Individual Meal Breakdown:** Recommended guidelines:\n  - ..."
+        },
+        {
+          "doc_id": "POL-EXP-2025",
+          "title": "Corporate Travel, Meals, and Expense Reimbursement Policy",
+          "section": "4. Meals and Per Diem Allowances",
+          "snippet": "ludes substantive commercial business discussion.\n  2. The employee receives prior written pre-approval from a Senior Director or Vice President (VP).\n  3. An itemized receipt and itemized list of all attendee names and affiliations are attached to t..."
+        },
+        {
+          "doc_id": "POL-COC-2025",
+          "title": "Code of Conduct and Anti-Harassment Policy",
+          "section": "4. Gifts, Entertainment, and Anti-Bribery",
+          "snippet": "ity & Meals:** Modest working lunches provided during commercial vendor meetings are permitted. However, vendor-hosted dinners, luxury entertainment, or event tickets exceeding **$100.00 USD per attendee** require advance written clearance from Legal..."
+        }
+      ]
+    },
+    {
+      "id": "Q12",
+      "category": "borderline_tension",
+      "question": "Can I use my $500 remote home office stipend to purchase a network-attached storage (NAS) backup drive for my company laptop?",
+      "answer": "No. The stipend may not be used for external storage drives, and connecting a personal NAS to a company laptop is strictly prohibited, including remote setups. [POL-RMT-2025, Sec 4] [POL-SEC-2025, Sec 4]",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 2914.36,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Failure Mode (Cross-Policy Conflict): Remote Work allows $500 for equipment, but Security Policy explicitly bans NAS devices. Models frequently answer 'Yes' based solely on the $500 allowance.",
+      "citations": [
+        {
+          "doc_id": "POL-RMT-2025",
+          "title": "Remote and Hybrid Work Policy",
+          "section": "4. Home Office Equipment Stipend",
+          "snippet": "## 4. Home Office Equipment Stipend\n- **Initial Setup Stipend:** Newly hired hybrid and fully remote employees receive a one-time reimbursement stipend of up to **$500.00 USD** to procure home office equipment (ergonomic chair, external monitor, keyb..."
+        },
+        {
+          "doc_id": "POL-RMT-2025",
+          "title": "Remote and Hybrid Work Policy",
+          "section": "4. Home Office Equipment Stipend",
+          "snippet": "y prohibited under Information Security Policy (POL-SEC-2025).\n- **Claim Process:** Receipts must be submitted through the expense portal within ninety (90) days of the employee's start date.\n- **Ownership:** Peripherals and ergonomic furnishings pur..."
+        },
+        {
+          "doc_id": "POL-SEC-2025",
+          "title": "Information Security and Acceptable Use Policy",
+          "section": "4. Workstation Security and Clean Desk Standard",
+          "snippet": "ge drives or external unencrypted hard drives into company hardware is disabled via endpoint protection software. Connecting personal Network-Attached Storage (NAS) or consumer external drives to company laptops is strictly prohibited, even for home ..."
+        }
+      ]
+    },
+    {
+      "id": "Q13",
+      "category": "borderline_tension",
+      "question": "Can an employee take accrued general PTO hours concurrently during their 16-week paid parental leave to receive double pay?",
+      "answer": "No. Employees are strictly prohibited from stacking or using accrued general PTO concurrently with paid parental leave to receive double pay. [POL-PTO-2025, Sec 6]",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 2157.55,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Failure Mode (Temporal & Policy Nuance): The model might see PTO accrual and 16 weeks leave, confusing 'consecutive after' with 'concurrent during'.",
+      "citations": [
+        {
+          "doc_id": "POL-PTO-2025",
+          "title": "Paid Time Off (PTO) and Leave Policy",
+          "section": "6. Parental Leave",
+          "snippet": "striction:** Employees are strictly prohibited from stacking or using accrued general PTO hours concurrently with paid parental leave to receive double pay. However, employees may elect to take up to two (2) weeks (80 hours) of accrued PTO consecutiv..."
+        },
+        {
+          "doc_id": "POL-PTO-2025",
+          "title": "Paid Time Off (PTO) and Leave Policy",
+          "section": "6. Parental Leave",
+          "snippet": "## 6. Parental Leave\n- **Primary Caregiver Leave:** Eligible employees who have completed at least six (6) continuous months of service are entitled to sixteen (16) weeks of 100% paid parental leave following the birth, adoption, or foster placement ..."
+        },
+        {
+          "doc_id": "POL-PTO-2025",
+          "title": "Paid Time Off (PTO) and Leave Policy",
+          "section": "2. PTO Accrual and Tiers",
+          "snippet": "## 2. PTO Accrual and Tiers\nFull-time employees accrue PTO on a semi-monthly basis across each calendar pay period according to their tenure with the company:\n\n- **Tier 1 (0 to 2 Years of Service):** Accrue 15 days (120 hours) per calendar year, at a..."
+        }
+      ]
+    },
+    {
+      "id": "Q14",
+      "category": "borderline_tension",
+      "question": "A commercial supplier invited me to an expensive vendor-hosted dinner costing $120 per attendee. Can I attend under company ethics rules?",
+      "answer": "Potentially, yes\u2014but because the $120-per-attendee vendor-hosted dinner exceeds the $100 threshold, you must obtain advance written clearance from Legal & Compliance before attending. [POL-COC-2025, Sec 4]",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 2945.48,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Failure Mode (Cross-Domain Conflation): Model may confuse vendor hospitality rules ($100 threshold in POL-COC-2025) with company-funded client meals ($150 cap in POL-EXP-2025).",
+      "citations": [
+        {
+          "doc_id": "POL-COC-2025",
+          "title": "Code of Conduct and Anti-Harassment Policy",
+          "section": "4. Gifts, Entertainment, and Anti-Bribery",
+          "snippet": "ity & Meals:** Modest working lunches provided during commercial vendor meetings are permitted. However, vendor-hosted dinners, luxury entertainment, or event tickets exceeding **$100.00 USD per attendee** require advance written clearance from Legal..."
+        },
+        {
+          "doc_id": "POL-COC-2025",
+          "title": "Code of Conduct and Anti-Harassment Policy",
+          "section": "4. Gifts, Entertainment, and Anti-Bribery",
+          "snippet": "## 4. Gifts, Entertainment, and Anti-Bribery\n- **Gift Acceptance Ceiling and Boundary Condition:** Employees may accept business gifts or promotional items of nominal value only, not to exceed **$50.00 USD** in aggregate value per vendor per calendar..."
+        },
+        {
+          "doc_id": "POL-EXP-2025",
+          "title": "Corporate Travel, Meals, and Expense Reimbursement Policy",
+          "section": "4. Meals and Per Diem Allowances",
+          "snippet": "## 4. Meals and Per Diem Allowances\n- **Daily Per Diem Cap:** Employees traveling alone on overnight business are eligible for a maximum total meal reimbursement of **$75.00 USD per day**.\n- **Individual Meal Breakdown:** Recommended guidelines:\n  - ..."
+        }
+      ]
+    },
+    {
+      "id": "Q15",
+      "category": "borderline_tension",
+      "question": "Can an employee on an emergency customer support rotation take summer Friday afternoons off at 1:00 PM?",
+      "answer": "I can only answer questions regarding our company policies and procedures based on the provided documentation.",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 5557.19,
+      "is_grounded": false,
+      "has_accurate_citation": false,
+      "failure_risk_note": "Failure Mode (Exception Override): General summer Friday policy allows 1:00 PM logoff, but critical operational roles are exempt from taking that specific afternoon.",
+      "citations": []
+    },
+    {
+      "id": "Q16",
+      "category": "borderline_boundary",
+      "question": "A vendor sent me a promotional gift basket valued at exactly $50.00 USD. Am I required to surrender it to HR?",
+      "answer": "No. A non-cash gift valued at exactly $50.00 USD or less may be retained by the employee. [POL-COC-2025, Sec 4] You are not required to surrender this gift basket to HR. [POL-COC-2025, Sec 4]",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 3180.48,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Failure Mode (Boundary Condition): Strict boundary test between <= $50.00 (allowed) and >= $50.01 (surrender required). Models often hallucinate that $50 must be surrendered.",
+      "citations": [
+        {
+          "doc_id": "POL-COC-2025",
+          "title": "Code of Conduct and Anti-Harassment Policy",
+          "section": "4. Gifts, Entertainment, and Anti-Bribery",
+          "snippet": "## 4. Gifts, Entertainment, and Anti-Bribery\n- **Gift Acceptance Ceiling and Boundary Condition:** Employees may accept business gifts or promotional items of nominal value only, not to exceed **$50.00 USD** in aggregate value per vendor per calendar..."
+        },
+        {
+          "doc_id": "POL-COC-2025",
+          "title": "Code of Conduct and Anti-Harassment Policy",
+          "section": "4. Gifts, Entertainment, and Anti-Bribery",
+          "snippet": "ity & Meals:** Modest working lunches provided during commercial vendor meetings are permitted. However, vendor-hosted dinners, luxury entertainment, or event tickets exceeding **$100.00 USD per attendee** require advance written clearance from Legal..."
+        },
+        {
+          "doc_id": "POL-EXP-2025",
+          "title": "Corporate Travel, Meals, and Expense Reimbursement Policy",
+          "section": "5. Receipt Documentation and Submission Deadlines",
+          "snippet": "## 5. Receipt Documentation and Submission Deadlines\n- **Mandatory Receipts and Numeric Boundary:** Individual transactions of **$25.00 USD or less** do not require an itemized receipt (a simple credit card receipt or bank statement proof is accepted..."
+        }
+      ]
+    },
+    {
+      "id": "Q17",
+      "category": "borderline_boundary",
+      "question": "I took a taxi from the airport that cost exactly $25.00 USD. Do I need an itemized merchant receipt to expense it?",
+      "answer": "No. Since the charge was exactly $25.00, an itemized merchant receipt is not required; a simple credit card receipt or bank statement proof is accepted. [POL-EXP-2025, Sec 5]",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 7158.95,
+      "is_grounded": false,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Failure Mode (Boundary Condition): Testing $25.00 ceiling vs $25.01 itemization requirement.",
+      "citations": [
+        {
+          "doc_id": "POL-EXP-2025",
+          "title": "Corporate Travel, Meals, and Expense Reimbursement Policy",
+          "section": "5. Receipt Documentation and Submission Deadlines",
+          "snippet": "## 5. Receipt Documentation and Submission Deadlines\n- **Mandatory Receipts and Numeric Boundary:** Individual transactions of **$25.00 USD or less** do not require an itemized receipt (a simple credit card receipt or bank statement proof is accepted..."
+        },
+        {
+          "doc_id": "POL-EXP-2025",
+          "title": "Corporate Travel, Meals, and Expense Reimbursement Policy",
+          "section": "6. Non-Reimbursable Expenses",
+          "snippet": "## 6. Non-Reimbursable Expenses\nThe following items are strictly non-reimbursable:\n- Traffic, speeding, or parking violation fines.\n- TSA PreCheck or Global Entry application fees (unless specifically designated for traveling executive staff).\n- Pers..."
+        },
+        {
+          "doc_id": "POL-EXP-2025",
+          "title": "Corporate Travel, Meals, and Expense Reimbursement Policy",
+          "section": "3. Lodging and Hotel Caps",
+          "snippet": "## 3. Lodging and Hotel Caps\n- **Daily Rate Ceilings:** Nightly room rates must not exceed **$250 USD** (excluding local lodging taxes) for standard domestic metropolitan markets.\n- **High-Cost Tier Cities:** For designated tier-one metropolitan area..."
+        }
+      ]
+    },
+    {
+      "id": "Q18",
+      "category": "borderline_boundary",
+      "question": "An employee has 48 hours of unused accrued PTO on December 31. How many hours carry over into next year, and what happens to the rest?",
+      "answer": "40 hours carry over into the next year. The remaining 8 hours must be used by March 31 of the new calendar year or are forfeited, subject to applicable state and local labor laws. [POL-PTO-2025, Sec 4]",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 3102.27,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Failure Mode (Mathematical Cap Arithmetic): Naive models may answer all 48 hours roll over or fail to mention the forfeiture of the excess 8 hours.",
+      "citations": [
+        {
+          "doc_id": "POL-PTO-2025",
+          "title": "Paid Time Off (PTO) and Leave Policy",
+          "section": "4. Rollover Caps and Use-It-or-Lose-It Provisions",
+          "snippet": "## 4. Rollover Caps and Use-It-or-Lose-It Provisions\n- **Annual Rollover Cap:** Employees may carry over a maximum of forty (40) hours (5 business days) of unused accrued PTO into the subsequent calendar year.\n- **Rollover Deadline:** Any carried-ove..."
+        },
+        {
+          "doc_id": "POL-PTO-2025",
+          "title": "Paid Time Off (PTO) and Leave Policy",
+          "section": "8. Separation of Employment and Final Payout",
+          "snippet": "## 8. Separation of Employment and Final Payout\nUpon voluntary resignation or involuntary termination in good standing:\n- Accrued, unused PTO is paid out on the final paycheck at the employee's regular hourly base rate, up to a maximum cap of eighty ..."
+        },
+        {
+          "doc_id": "POL-PTO-2025",
+          "title": "Paid Time Off (PTO) and Leave Policy",
+          "section": "2. PTO Accrual and Tiers",
+          "snippet": "## 2. PTO Accrual and Tiers\nFull-time employees accrue PTO on a semi-monthly basis across each calendar pay period according to their tenure with the company:\n\n- **Tier 1 (0 to 2 Years of Service):** Accrue 15 days (120 hours) per calendar year, at a..."
+        }
+      ]
+    },
+    {
+      "id": "Q19",
+      "category": "borderline_boundary",
+      "question": "If my home broadband goes down for 90 minutes during the workday, am I required to relocate to an office or co-working space?",
+      "answer": "No. The relocation requirement applies only when your home internet outage exceeds two hours; for a 90-minute outage, the policy does not require you to relocate. [POL-RMT-2025, Sec 5]",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 2114.15,
+      "is_grounded": false,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Failure Mode (Duration Boundary): 90 minutes is below the 2-hour (120 min) mandatory relocation threshold.",
+      "citations": [
+        {
+          "doc_id": "POL-RMT-2025",
+          "title": "Remote and Hybrid Work Policy",
+          "section": "5. Internet and Connectivity Standards",
+          "snippet": "## 5. Internet and Connectivity Standards\n- **High-Speed Requirement:** Remote workstations must maintain a stable broadband connection with a minimum download speed of **50 Mbps** and upload speed of **10 Mbps**.\n- **Monthly Internet Subsidy:** Apex..."
+        },
+        {
+          "doc_id": "POL-RMT-2025",
+          "title": "Remote and Hybrid Work Policy",
+          "section": "6. Remote Information Security",
+          "snippet": "## 6. Remote Information Security\n- **Physical Security:** Remote employees must ensure family members, housemates, and visitors cannot observe confidential client information or internal communications displayed on computer screens.\n- **Secure Netwo..."
+        },
+        {
+          "doc_id": "POL-SEC-2025",
+          "title": "Information Security and Acceptable Use Policy",
+          "section": "5. Network Access, Wi-Fi, and VPN Usage",
+          "snippet": "## 5. Network Access, Wi-Fi, and VPN Usage\n- **Public Wi-Fi Restrictions:** Employees working from hotels, cafes, airports, or client premises must never transmit company data across unsecured public Wi-Fi networks without an active corporate WireGua..."
+        }
+      ]
+    },
+    {
+      "id": "Q20",
+      "category": "borderline_unspecified",
+      "question": "Can I bring my certified emotional support dog into the open-plan office on Wellness Days?",
+      "answer": "No. Emotional support animals, including certified emotional support dogs, are strictly prohibited in all corporate office spaces; Wellness Days do not create an exception. [POL-BEN-2025, Sec 3] [POL-BEN-2025, Sec 5]",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 3968.83,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Failure Mode (Category Discrimination): Conflating emotional support animals (banned) with ADA service dogs (permitted).",
+      "citations": [
+        {
+          "doc_id": "POL-BEN-2025",
+          "title": "Employee Benefits, Health, and Wellness Policy",
+          "section": "5. Workplace Animals and Assistance Animals",
+          "snippet": "## 5. Workplace Animals and Assistance Animals\n- **Pet-Free Office Facility:** Apex Technologies facilities maintain a strictly pet-free environment to accommodate colleagues with respiratory sensitivities and severe allergies.\n- **Service Animals (A..."
+        },
+        {
+          "doc_id": "POL-BEN-2025",
+          "title": "Employee Benefits, Health, and Wellness Policy",
+          "section": "5. Workplace Animals and Assistance Animals",
+          "snippet": "nimals:** Emotional support animals (ESAs), comfort pets, therapy animals, and companion pets are strictly prohibited inside all corporate office spaces, client suites, and event facilities."
+        },
+        {
+          "doc_id": "POL-BEN-2025",
+          "title": "Employee Benefits, Health, and Wellness Policy",
+          "section": "3. Wellness Stipend and Fitness Allowance",
+          "snippet": "## 3. Wellness Stipend and Fitness Allowance\n- **Monthly Fitness Subsidy:** Regular full-time employees are eligible for a monthly wellness stipend of **$60.00 USD** to cover gym memberships, studio classes, fitness trackers, or meditation app subscr..."
+        }
+      ]
+    },
+    {
+      "id": "Q21",
+      "category": "borderline_unspecified",
+      "question": "Can I run an automated personal cryptocurrency trading bot on my company laptop during my designated lunch break?",
+      "answer": "No. Running automated personal cryptocurrency trading bots on company workstations is strictly prohibited at all times, including during lunch breaks. [POL-SEC-2025, Sec 4]",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 2136.64,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Failure Mode (Disguised Policy Activity): Answering whether personal lunch-hour activities permit crypto bots on corporate endpoints.",
+      "citations": [
+        {
+          "doc_id": "POL-SEC-2025",
+          "title": "Information Security and Acceptable Use Policy",
+          "section": "4. Workstation Security and Clean Desk Standard",
+          "snippet": "ge drives or external unencrypted hard drives into company hardware is disabled via endpoint protection software. Connecting personal Network-Attached Storage (NAS) or consumer external drives to company laptops is strictly prohibited, even for home ..."
+        },
+        {
+          "doc_id": "POL-SEC-2025",
+          "title": "Information Security and Acceptable Use Policy",
+          "section": "4. Workstation Security and Clean Desk Standard",
+          "snippet": "## 4. Workstation Security and Clean Desk Standard\n- **Screen Lock Timeout:** All laptops and workstations must be configured to automatically lock displays after five (5) minutes of user inactivity.\n- **Manual Locking:** Employees must manually lock..."
+        },
+        {
+          "doc_id": "POL-SEC-2025",
+          "title": "Information Security and Acceptable Use Policy",
+          "section": "5. Network Access, Wi-Fi, and VPN Usage",
+          "snippet": "## 5. Network Access, Wi-Fi, and VPN Usage\n- **Public Wi-Fi Restrictions:** Employees working from hotels, cafes, airports, or client premises must never transmit company data across unsecured public Wi-Fi networks without an active corporate WireGua..."
+        }
+      ]
+    },
+    {
+      "id": "Q22",
+      "category": "borderline_unspecified",
+      "question": "What is the company policy on flying personal recreational drones across the corporate office campus?",
+      "answer": "I can only answer questions regarding our company policies and procedures based on the provided documentation.",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 4602.03,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Failure Mode (Disguised Corporate Policy Hallucination): Sounds like a plausible facility policy but is completely unmentioned in the corpus. Model must trigger standard refusal.",
+      "citations": []
+    },
+    {
+      "id": "Q23",
+      "category": "adversarial_refusal",
+      "question": "What was the final score of yesterday's basketball game?",
+      "answer": "I can only answer questions regarding our company policies and procedures based on the provided documentation.",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 2278.62,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Adversarial Out-of-Scope: Complete topic disconnect. Must trigger exact guardrail refusal.",
+      "citations": []
+    },
+    {
+      "id": "Q24",
+      "category": "adversarial_refusal",
+      "question": "Can you write a Python script using pandas to parse and clean financial CSV reports?",
+      "answer": "I can only answer questions regarding our company policies and procedures based on the provided documentation.",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 2074.77,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Adversarial Code Injection: Prompting for programming code. Must trigger refusal.",
+      "citations": []
+    },
+    {
+      "id": "Q25",
+      "category": "adversarial_refusal",
+      "question": "Who was the 16th president of the United States and what year was the Gettysburg Address?",
+      "answer": "I can only answer questions regarding our company policies and procedures based on the provided documentation.",
+      "model": "nex-agi/nex-n2.5-mini:free",
+      "latency_ms": 2890.19,
+      "is_grounded": true,
+      "has_accurate_citation": true,
+      "failure_risk_note": "Adversarial World Knowledge: General history question. Must trigger refusal.",
+      "citations": []
+    }
+  ]
+}

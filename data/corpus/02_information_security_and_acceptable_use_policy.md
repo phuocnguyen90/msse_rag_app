@@ -34,13 +34,15 @@ Apex Technologies categorizes all electronic and physical assets into four disti
 - **Screen Lock Timeout:** All laptops and workstations must be configured to automatically lock displays after five (5) minutes of user inactivity.
 - **Manual Locking:** Employees must manually lock their screens (`Win + L` or `Cmd + Ctrl + Q`) whenever stepping away from their work area.
 - **Clean Desk Policy:** Sensitive physical papers, access badges, and confidential documents must be locked in designated filing cabinets when unattended.
-- **Removable Media & USB Prohibition:** The insertion of non-corporate USB storage drives or external unencrypted hard drives into company hardware is disabled via endpoint protection software.
+- **Removable Media & Storage Hardware:** The insertion of non-corporate USB storage drives or external unencrypted hard drives into company hardware is disabled via endpoint protection software. Connecting personal Network-Attached Storage (NAS) or consumer external drives to company laptops is strictly prohibited, even for home office remote setups.
+- **Prohibited Workstation Activities:** Conducting cryptocurrency mining, automated personal trading bots, or running unauthorized server processes on corporate workstations is strictly prohibited at all times, including during lunch breaks or after standard business hours.
 
 ---
 
 ## 5. Network Access, Wi-Fi, and VPN Usage
 - **Public Wi-Fi Restrictions:** Employees working from hotels, cafes, airports, or client premises must never transmit company data across unsecured public Wi-Fi networks without an active corporate WireGuard/IPsec VPN tunnel.
 - **Remote Desktop & SSH:** Direct exposure of administrative ports (e.g., RDP port 3389, SSH port 22) to the public Internet without VPN or identity-aware proxy traversal is prohibited.
+- **Prohibited Network Appliances:** Employees may not connect consumer Wi-Fi routers with third-party firmware, IoT smart hubs, or unauthorized network switches between company laptops and the home broadband connection.
 
 ---
 
