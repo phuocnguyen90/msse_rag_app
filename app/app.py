@@ -92,10 +92,9 @@ def create_app(rag_pipeline: Optional[PolicyRAGPipeline] = None) -> Flask:
         return jsonify({
             "default_model": pipeline.chat_model,
             "models": [
-                {"id": "nex-agi/nex-n2.5-mini:free", "name": "Nex-N2.5 Mini (Fastest ~0.8s)", "tag": "Recommended"},
-                {"id": "google/gemma-4-26b-a4b-it:free", "name": "Google Gemma 4 (26B)", "tag": "Google"},
-                {"id": "nvidia/nemotron-3.5-lightning:free", "name": "NVIDIA Nemotron 3.5 Lightning", "tag": "NVIDIA"},
+                {"id": "poolside/laguna-s-2.1:free", "name": "Poolside Laguna S (Recommended)", "tag": "Recommended"},
                 {"id": "liquid/lfm-2.5-2.6b:free", "name": "Liquid LFM 2.5 (2.6B)", "tag": "Liquid"},
+                {"id": "google/gemma-4-31b-it:free", "name": "Google Gemma 4 (31B)", "tag": "Google"},
             ]
         }), 200
 
