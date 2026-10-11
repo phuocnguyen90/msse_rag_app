@@ -67,23 +67,36 @@ def create_app(rag_pipeline: Optional[PolicyRAGPipeline] = None) -> Flask:
             except (ValueError, TypeError):
                 k = None
 
+        valid_models = {
+            "meta-llama/llama-3.1-8b-instruct",
+            "openai/gpt-oss-20b",
+        }
         model = data.get("model", None)
-        if isinstance(model, str):
-            model = model.strip() or None
+        if isinstance(model, str) and model.strip() in valid_models:
+            model = model.strip()
         else:
             model = None
 
-        result = pipeline.query(question=question, k=k, model=model)
-        return jsonify({
-            "status": "success",
-            "question": result["question"],
-            "answer": result["answer"],
-            "citations": result["citations"],
-            "latency_ms": result["latency_ms"],
-            "retrieval_ms": result.get("retrieval_ms", 0.0),
-            "generation_ms": result.get("generation_ms", 0.0),
-            "model": result.get("model", pipeline.chat_model),
-        })
+        logger.info(f"Processing query: '{question[:60]}' (model: {model or pipeline.chat_model})")
+        try:
+            result = pipeline.query(question=question, k=k, model=model)
+            logger.info(f"Query succeeded in {result.get('latency_ms', 0):.1f}ms using {result.get('model')}")
+            return jsonify({
+                "status": "success",
+                "question": result["question"],
+                "answer": result["answer"],
+                "citations": result["citations"],
+                "latency_ms": result["latency_ms"],
+                "retrieval_ms": result.get("retrieval_ms", 0.0),
+                "generation_ms": result.get("generation_ms", 0.0),
+                "model": result.get("model", pipeline.chat_model),
+            })
+        except Exception as e:
+            logger.exception(f"Unhandled error processing query '{question}': {e}")
+            return jsonify({
+                "status": "error",
+                "error": f"Assistant query processing error: {str(e)}",
+            }), 500
 
     @app.route("/models", methods=["GET"])
     def get_models():

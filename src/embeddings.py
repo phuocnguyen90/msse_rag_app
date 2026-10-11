@@ -64,6 +64,7 @@ class OpenRouterEmbeddingFunction(EmbeddingFunction[Documents]):
                 base_url=self.base_url,
                 api_key=self.api_key,
                 timeout=3.0,
+                max_retries=0,
             )
         else:
             self.client = None
@@ -97,6 +98,7 @@ class OpenRouterEmbeddingFunction(EmbeddingFunction[Documents]):
                 response = self.client.embeddings.create(
                     model=self.model_name,
                     input=batch,
+                    timeout=3.0,
                 )
                 batch_embeddings = [item.embedding for item in response.data]
                 all_embeddings.extend(batch_embeddings)
