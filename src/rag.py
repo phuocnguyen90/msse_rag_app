@@ -25,10 +25,10 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_DB_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "chroma_db")
 COLLECTION_NAME = "policy_corpus"
-DEFAULT_CHAT_MODEL = os.getenv("OPENROUTER_CHAT_MODEL", "liquid/lfm-2.5-2.6b:free")
+DEFAULT_CHAT_MODEL = os.getenv("OPENROUTER_CHAT_MODEL", "meta-llama/llama-3.1-8b-instruct")
 FALLBACK_CHAT_MODELS = [
     DEFAULT_CHAT_MODEL,
-    "poolside/laguna-s-2.1:free",
+    "openai/gpt-oss-20b",
 ]
 STANDARD_REFUSAL = (
     "I can only answer questions regarding our company policies and procedures "
@@ -306,6 +306,7 @@ class PolicyRAGPipeline:
                         ],
                         temperature=0.1,
                         max_tokens=800,
+                        timeout=8.0,
                         extra_body={"reasoning": {"exclude": True}},
                     )
                     msg = response.choices[0].message

@@ -40,7 +40,7 @@
                     </div>
                     <div class="status-item">
                         <span class="label">Chat Model:</span>
-                        <span class="value" id="model-name">Nemotron 3.5 Lightning</span>
+                        <span class="value" id="model-name">Llama 3.1 8B Instruct</span>
                     </div>
                 </div>
             </div>
@@ -90,10 +90,8 @@
                     <div class="model-picker-container">
                         <label for="model-select" class="picker-label">Model:</label>
                         <select id="model-select" class="model-select-control" aria-label="Select LLM model for generation">
-                            <option value="nex-agi/nex-n2.5-mini:free" selected>⚡ Nex-N2.5 Mini (Fastest ~0.8s)</option>
-                            <option value="google/gemma-4-26b-a4b-it:free">🔷 Google Gemma 4 (26B)</option>
-                            <option value="nvidia/nemotron-3.5-lightning:free">🟢 NVIDIA Nemotron 3.5</option>
-                            <option value="liquid/lfm-2.5-2.6b:free">💧 Liquid LFM 2.5 (2.6B)</option>
+                            <option value="meta-llama/llama-3.1-8b-instruct" selected>⚡ Meta Llama 3.1 8B (Recommended ~2.9s)</option>
+                            <option value="openai/gpt-oss-20b">🔄 OpenAI GPT-OSS 20B (Fallback)</option>
                         </select>
                     </div>
                     <button type="button" id="clear-chat-btn" class="secondary-btn" title="Clear conversation history">Clear Chat</button>

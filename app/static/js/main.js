@@ -64,17 +64,31 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify({ question: question, model: selectedModel })
             });
 
-            const data = await response.json();
             typingBubble.remove();
 
-            if (response.ok && data.status === "success") {
+            if (!response.ok) {
+                let errorMsg = `Server error (${response.status})`;
+                try {
+                    const errData = await response.json();
+                    if (errData && errData.error) errorMsg = errData.error;
+                } catch (_) {
+                    if (response.status === 502 || response.status === 504) {
+                        errorMsg = "Server is waking up or temporarily busy. Please retry in 10-15 seconds.";
+                    }
+                }
+                appendErrorMessage(errorMsg);
+                return;
+            }
+
+            const data = await response.json();
+            if (data.status === "success") {
                 appendBotMessage(data.answer, data.citations, data.latency_ms, data.model);
             } else {
                 appendErrorMessage(data.error || "An error occurred while communicating with the assistant.");
             }
         } catch (err) {
             typingBubble.remove();
-            appendErrorMessage("Network error: Unable to reach the policy assistant server.");
+            appendErrorMessage("Network error: Unable to reach the policy assistant server. The instance may be cold-starting; please retry in a few moments.");
             console.error("Chat API error:", err);
         } finally {
             sendBtn.disabled = false;

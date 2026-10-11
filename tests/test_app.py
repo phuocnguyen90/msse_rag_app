@@ -65,7 +65,7 @@ def test_models_endpoint(client):
     data = response.get_json()
     assert "default_model" in data
     assert "models" in data
-    assert len(data["models"]) >= 3
+    assert len(data["models"]) >= 2
 
 
 def test_chat_endpoint_with_model_selection(client):
@@ -73,7 +73,7 @@ def test_chat_endpoint_with_model_selection(client):
         "/chat",
         json={
             "question": "What is the daily meal per diem cap?",
-            "model": "nex-agi/nex-n2.5-mini:free",
+            "model": "meta-llama/llama-3.1-8b-instruct",
         },
     )
     assert response.status_code == 200

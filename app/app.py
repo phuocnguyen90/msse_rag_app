@@ -92,9 +92,8 @@ def create_app(rag_pipeline: Optional[PolicyRAGPipeline] = None) -> Flask:
         return jsonify({
             "default_model": pipeline.chat_model,
             "models": [
-                {"id": "poolside/laguna-s-2.1:free", "name": "Poolside Laguna S (Recommended)", "tag": "Recommended"},
-                {"id": "liquid/lfm-2.5-2.6b:free", "name": "Liquid LFM 2.5 (2.6B)", "tag": "Liquid"},
-                {"id": "google/gemma-4-31b-it:free", "name": "Google Gemma 4 (31B)", "tag": "Google"},
+                {"id": "meta-llama/llama-3.1-8b-instruct", "name": "Meta Llama 3.1 8B Instruct (Recommended)", "tag": "Recommended"},
+                {"id": "openai/gpt-oss-20b", "name": "OpenAI GPT-OSS 20B (Fallback)", "tag": "Fallback"},
             ]
         }), 200
 
