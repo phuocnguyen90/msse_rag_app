@@ -88,7 +88,7 @@ def create_app(rag_pipeline: Optional[PolicyRAGPipeline] = None) -> Flask:
         logger.info(f"Processing query: '{question[:60]}' (model: {model or pipeline.chat_model})")
         try:
             future = EXECUTOR.submit(pipeline.query, question=question, k=k, model=model)
-            result = future.result(timeout=6.0)
+            result = future.result(timeout=12.0)
             logger.info(f"Query succeeded in {result.get('latency_ms', 0):.1f}ms using {result.get('model')}")
             return jsonify({
                 "status": "success",
@@ -101,7 +101,7 @@ def create_app(rag_pipeline: Optional[PolicyRAGPipeline] = None) -> Flask:
                 "model": result.get("model", pipeline.chat_model),
             })
         except concurrent.futures.TimeoutError:
-            logger.warning(f"Query '{question[:50]}' timed out after 6s. Returning safe grounded response.")
+            logger.warning(f"Query '{question[:50]}' timed out after 12s. Returning safe grounded response.")
             return jsonify({
                 "status": "success",
                 "question": question,

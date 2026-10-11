@@ -134,7 +134,7 @@ class PolicyRAGPipeline:
             self.llm_client = OpenAI(
                 base_url="https://openrouter.ai/api/v1",
                 api_key=self.api_key,
-                timeout=httpx.Timeout(6.0, connect=2.5, read=5.0, write=2.5, pool=2.5),
+                timeout=httpx.Timeout(10.0, connect=3.0, read=9.0, write=3.0, pool=3.0),
                 max_retries=0,
             )
         else:
@@ -364,7 +364,7 @@ class PolicyRAGPipeline:
                         ],
                         temperature=0.1,
                         max_tokens=800,
-                        timeout=5.0,
+                        timeout=9.0,
                         extra_body={"reasoning": {"exclude": True}},
                     )
                     msg = response.choices[0].message
