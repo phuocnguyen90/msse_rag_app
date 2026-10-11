@@ -17,6 +17,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import chromadb  # noqa: E402
 from dotenv import load_dotenv  # noqa: E402
 import httpx  # noqa: E402
+import numpy as np  # noqa: E402
 from openai import OpenAI  # noqa: E402
 from src.embeddings import OpenRouterEmbeddingFunction  # noqa: E402
 
@@ -80,7 +81,7 @@ class PolicyRAGPipeline:
         self.collection = self.chroma_client.get_or_create_collection(
             name=self.collection_name,
             embedding_function=self.embedding_fn,
-            metadata={"hnsw:space": "cosine"},
+            metadata={"hnsw:space": "cosine", "hnsw:num_threads": 1},
         )
 
         try:
@@ -109,6 +110,25 @@ class PolicyRAGPipeline:
                 except Exception as e:
                     logger.error(f"Failed to auto-ingest corpus: {e}")
 
+        # In-memory chunk cache for fast, deadlock-free vector retrieval
+        self._cached_chunks = []
+        try:
+            stored = self.collection.get(include=["documents", "metadatas", "embeddings"])
+            if stored and stored.get("documents"):
+                embs = stored.get("embeddings")
+                for i, (doc, meta) in enumerate(zip(stored["documents"], stored["metadatas"])):
+                    emb_vec = None
+                    if embs is not None and i < len(embs) and embs[i] is not None:
+                        emb_vec = np.array(embs[i], dtype=np.float32)
+                    self._cached_chunks.append({
+                        "doc": doc,
+                        "meta": meta,
+                        "emb": emb_vec,
+                    })
+                logger.info(f"Loaded {len(self._cached_chunks)} policy chunks into in-memory cache.")
+        except Exception as e:
+            logger.warning(f"Could not populate in-memory chunk cache: {e}")
+
         # OpenRouter client
         if self.api_key:
             self.llm_client = OpenAI(
@@ -126,33 +146,70 @@ class PolicyRAGPipeline:
     def retrieve(self, query: str, k: Optional[int] = None) -> List[Dict[str, Any]]:
         """Retrieve top-k relevant document chunks with metadata and distances."""
         limit = k or self.top_k
-        if self.collection.count() == 0:
+        if not self._cached_chunks and self.collection.count() == 0:
             return []
 
-        results = self.collection.query(
-            query_texts=[query],
-            n_results=min(limit, self.collection.count()),
-            include=["documents", "metadatas", "distances"],
-        )
+        # 1. In-memory vector similarity ranking (completely immune to HNSW multi-thread deadlock)
+        try:
+            q_emb_list = self.embedding_fn([query])
+            if q_emb_list and len(q_emb_list) > 0 and self._cached_chunks and self._cached_chunks[0]["emb"] is not None:
+                q_emb = np.array(q_emb_list[0], dtype=np.float32)
+                norm_q = float(np.linalg.norm(q_emb))
+                if norm_q > 1e-9:
+                    q_emb = q_emb / norm_q
 
-        retrieved_items = []
-        if results and results["documents"] and results["documents"][0]:
-            docs = results["documents"][0]
-            metas = results["metadatas"][0] if results["metadatas"] else [{}] * len(docs)
-            distances = results["distances"][0] if results.get("distances") else [0.0] * len(docs)
+                scored = []
+                for item in self._cached_chunks:
+                    emb = item["emb"]
+                    if emb is not None:
+                        norm_e = float(np.linalg.norm(emb))
+                        sim = float(np.dot(q_emb, emb) / (norm_e + 1e-9)) if norm_e > 1e-9 else 0.0
+                        scored.append((sim, item))
 
-            for doc_text, meta, dist in zip(docs, metas, distances):
-                # Clean snippet for client display
-                clean_text = doc_text.split("]\n", 1)[-1] if "]\n" in doc_text else doc_text
-                retrieved_items.append({
-                    "snippet": clean_text.strip(),
-                    "doc_id": meta.get("doc_id", "UNKNOWN"),
-                    "title": meta.get("title", "Company Policy"),
-                    "section": meta.get("section", "General"),
-                    "source": meta.get("source", ""),
-                    "distance": float(dist),
-                })
-        return retrieved_items
+                scored.sort(key=lambda x: x[0], reverse=True)
+                retrieved_items = []
+                for sim, item in scored[:limit]:
+                    doc_text = item["doc"]
+                    meta = item["meta"]
+                    clean_text = doc_text.split("]\n", 1)[-1] if "]\n" in doc_text else doc_text
+                    retrieved_items.append({
+                        "snippet": clean_text.strip(),
+                        "doc_id": meta.get("doc_id", "UNKNOWN"),
+                        "title": meta.get("title", "Company Policy"),
+                        "section": meta.get("section", "General"),
+                        "source": meta.get("source", ""),
+                        "distance": 1.0 - sim,
+                    })
+                return retrieved_items
+        except Exception as e:
+            logger.warning(f"In-memory cosine ranking failed: {e}. Trying collection.query fallback.")
+
+        # 2. Chroma collection.query fallback
+        try:
+            results = self.collection.query(
+                query_texts=[query],
+                n_results=min(limit, self.collection.count()),
+                include=["documents", "metadatas", "distances"],
+            )
+            retrieved_items = []
+            if results and results["documents"] and results["documents"][0]:
+                docs = results["documents"][0]
+                metas = results["metadatas"][0] if results["metadatas"] else [{}] * len(docs)
+                distances = results["distances"][0] if results.get("distances") else [0.0] * len(docs)
+                for doc_text, meta, dist in zip(docs, metas, distances):
+                    clean_text = doc_text.split("]\n", 1)[-1] if "]\n" in doc_text else doc_text
+                    retrieved_items.append({
+                        "snippet": clean_text.strip(),
+                        "doc_id": meta.get("doc_id", "UNKNOWN"),
+                        "title": meta.get("title", "Company Policy"),
+                        "section": meta.get("section", "General"),
+                        "source": meta.get("source", ""),
+                        "distance": float(dist),
+                    })
+            return retrieved_items
+        except Exception as e:
+            logger.error(f"Fallback collection.query error: {e}")
+            return []
 
     def _offline_fallback_generator(
         self, query: str, retrieved_chunks: List[Dict[str, Any]]
