@@ -15,5 +15,9 @@ services:
         value: nvidia/llama-nemotron-embed-vl-1b-v2:free
       - key: OPENROUTER_CHAT_MODEL
         value: meta-llama/llama-3.1-8b-instruct
+      - key: OMP_NUM_THREADS
+        value: "1"
+      - key: OPENBLAS_NUM_THREADS
+        value: "1"
       - key: OPENROUTER_API_KEY
         sync: false
