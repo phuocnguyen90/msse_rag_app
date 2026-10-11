@@ -16,6 +16,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import chromadb  # noqa: E402
 from dotenv import load_dotenv  # noqa: E402
+import httpx  # noqa: E402
 from openai import OpenAI  # noqa: E402
 from src.embeddings import OpenRouterEmbeddingFunction  # noqa: E402
 
@@ -113,7 +114,7 @@ class PolicyRAGPipeline:
             self.llm_client = OpenAI(
                 base_url="https://openrouter.ai/api/v1",
                 api_key=self.api_key,
-                timeout=8.0,
+                timeout=httpx.Timeout(6.0, connect=2.5, read=5.0, write=2.5, pool=2.5),
                 max_retries=0,
             )
         else:
@@ -306,7 +307,7 @@ class PolicyRAGPipeline:
                         ],
                         temperature=0.1,
                         max_tokens=800,
-                        timeout=8.0,
+                        timeout=5.0,
                         extra_body={"reasoning": {"exclude": True}},
                     )
                     msg = response.choices[0].message

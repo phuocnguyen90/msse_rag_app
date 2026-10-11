@@ -11,6 +11,7 @@ import math
 import os
 from typing import List, Optional
 from chromadb.api.types import Documents, EmbeddingFunction, Embeddings
+import httpx
 from openai import OpenAI
 
 logger = logging.getLogger(__name__)
@@ -63,7 +64,7 @@ class OpenRouterEmbeddingFunction(EmbeddingFunction[Documents]):
             self.client = OpenAI(
                 base_url=self.base_url,
                 api_key=self.api_key,
-                timeout=3.0,
+                timeout=httpx.Timeout(3.0, connect=2.0, read=2.5, write=2.0, pool=2.0),
                 max_retries=0,
             )
         else:

@@ -6,6 +6,7 @@ Provides:
 - GET /health: Health check endpoint for uptime and monitoring
 """
 
+import concurrent.futures
 import logging
 import os
 import sys
@@ -79,7 +80,9 @@ def create_app(rag_pipeline: Optional[PolicyRAGPipeline] = None) -> Flask:
 
         logger.info(f"Processing query: '{question[:60]}' (model: {model or pipeline.chat_model})")
         try:
-            result = pipeline.query(question=question, k=k, model=model)
+            with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+                future = executor.submit(pipeline.query, question=question, k=k, model=model)
+                result = future.result(timeout=10.0)
             logger.info(f"Query succeeded in {result.get('latency_ms', 0):.1f}ms using {result.get('model')}")
             return jsonify({
                 "status": "success",
@@ -90,6 +93,25 @@ def create_app(rag_pipeline: Optional[PolicyRAGPipeline] = None) -> Flask:
                 "retrieval_ms": result.get("retrieval_ms", 0.0),
                 "generation_ms": result.get("generation_ms", 0.0),
                 "model": result.get("model", pipeline.chat_model),
+            })
+        except concurrent.futures.TimeoutError:
+            logger.warning(f"Query '{question[:50]}' timed out after 10s. Returning fast offline fallback.")
+            try:
+                chunks = pipeline.retrieve(question, k=k or 3)
+            except Exception:
+                chunks = []
+            answer = pipeline._offline_fallback_generator(question, chunks) if hasattr(pipeline, "_offline_fallback_generator") else "I can only answer questions regarding our company policies and procedures based on the provided documentation."
+            citations = [
+                {"doc_id": c.get("doc_id", "POLICY"), "title": c.get("title", ""), "section": c.get("section", ""), "snippet": c.get("snippet", "")[:200]}
+                for c in chunks
+            ] if chunks else []
+            return jsonify({
+                "status": "success",
+                "question": question,
+                "answer": answer,
+                "citations": citations,
+                "latency_ms": 10000.0,
+                "model": "offline-fallback",
             })
         except Exception as e:
             logger.exception(f"Unhandled error processing query '{question}': {e}")
