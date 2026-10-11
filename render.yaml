@@ -14,6 +14,6 @@ services:
       - key: OPENROUTER_EMBEDDING_MODEL
         value: nvidia/llama-nemotron-embed-vl-1b-v2:free
       - key: OPENROUTER_CHAT_MODEL
-        value: poolside/laguna-s-2.1:free
+        value: liquid/lfm-2.5-2.6b:free
       - key: OPENROUTER_API_KEY
         sync: false

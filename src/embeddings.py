@@ -63,7 +63,7 @@ class OpenRouterEmbeddingFunction(EmbeddingFunction[Documents]):
             self.client = OpenAI(
                 base_url=self.base_url,
                 api_key=self.api_key,
-                timeout=15.0,
+                timeout=3.0,
             )
         else:
             self.client = None
